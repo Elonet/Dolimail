@@ -1,0 +1,82 @@
+#twittor-panel {
+    float: none;
+    clear:both;
+    margin:10px 12px 0 20px;
+}
+#twittor-panel div[rel=header] {
+	float:left;
+	width:20%;
+	height:50px;
+}
+#twittor-panel div[rel=writer] {
+	float:left;
+	width:80%;
+	height:50px;
+}
+#twittor-panel div[rel=writer] input[type=text] {
+	
+	width:75%;
+	
+}
+#twittor-panel div[rel=writer] input[type=button] {
+	width:20%;
+	margin-left:10px;
+}
+#twittor-panel div.comments {
+	clear:both;
+}
+#twittor-panel div.comm {
+	margin-top:2px;
+	
+	/*background-image: linear-gradient(to bottom, #e8e8e8 0px, #f5f5f5 100%);
+    background-repeat: repeat-x;*/
+    border-bottom: 1px solid #dcdcdc;
+    
+	padding: 10px 3px;	
+	
+	
+}
+#twittor-panel div.comm:nth-child(odd) {
+	background-color: #eee;
+}
+#twittor-panel div.comm div.date {
+	font-size:9px;
+	color:#a5a5a5;
+	text-align: right;
+	float:right;
+}
+#twittor-panel div.comm div.delete {
+	float:right;
+}
+
+#twittor-panel div.comm div.object  {
+	display:inline;
+	margin-right:5px;
+	background: #4963ff;
+	border-radius: 3px;
+	padding:1px 3px;
+	
+}
+#twittor-panel div.comm div.object a {
+	color:#fff;	
+}
+
+#twittor-panel div.comm a.user {
+	color:blue;
+}
+
+#twittor-panel div.comm a.object {
+	color:#fff;
+	border-radius: 3px;
+	padding:1px 3px;
+	background-color: #008000;
+}
+#twittor-panel div.comm a.rel {
+	color:#fff;
+	border-radius: 3px;
+	padding:1px 3px;
+	background-color: purple;
+}
+#twittor-panel div.comm a.user {
+	color:blue;
+}
