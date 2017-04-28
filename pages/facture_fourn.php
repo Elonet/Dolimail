@@ -23,7 +23,9 @@
  *		\brief      Page des informations d'une facture fournisseur
  */
 
-require '../../main.inc.php';
+	if (false === (@include '../../main.inc.php')) {  // From htdocs directory
+		require '../../../main.inc.php'; // From "custom" directory
+	}
 require_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.class.php';
 require_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.facture.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';

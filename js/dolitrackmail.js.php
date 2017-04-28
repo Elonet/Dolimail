@@ -1,5 +1,7 @@
 <?php
-	include_once("../../main.inc.php");
+	if (false === (@include '../../main.inc.php')) {  // From htdocs directory
+		require '../../../main.inc.php'; // From "custom" directory
+	}
 	$langs->load('dolitrackmail@dolitrackmail');
 	
 	$element = GETPOST('el');

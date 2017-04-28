@@ -20,13 +20,15 @@
  *  \brief      Page to setup project module
  */
 
-include_once("../../main.inc.php");
+if (false === (@include '../../main.inc.php')) {  // From htdocs directory
+	require '../../../main.inc.php'; // From "custom" directory
+}
 
 require_once DOL_DOCUMENT_ROOT.'/core/lib/admin.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/project.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/projet/class/project.class.php';
 require_once DOL_DOCUMENT_ROOT.'/projet/class/task.class.php';
-require_once(DOL_DOCUMENT_ROOT."/dolitrackmail/core/modules/modDolitrackmail.class.php");
+require_once DOL_DOCUMENT_ROOT.'/dolitrackmail/core/modules/modDolitrackmail.class.php';
 
 $langs->load("admin");
 $langs->load("errors");

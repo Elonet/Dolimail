@@ -1,5 +1,7 @@
 <?php
-	require '../../main.inc.php';
+	if (false === (@include '../../main.inc.php')) {  // From htdocs directory
+		require '../../../main.inc.php'; // From "custom" directory
+	}
 	require_once(DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php");
 
 	$id = GETPOST('id','int');

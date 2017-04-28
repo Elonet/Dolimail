@@ -1,5 +1,7 @@
 <?php
-	require '../../main.inc.php';
+	if (false === (@include '../../main.inc.php')) {  // From htdocs directory
+		require '../../../main.inc.php'; // From "custom" directory
+	}
 	
 	$apikey = $_POST['apikey'];
 	$sms = intval($_POST['sms']);

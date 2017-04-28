@@ -23,7 +23,9 @@
  *      \brief      Page d'affichage des infos d'une proposition commerciale
  */
 
-require '../../main.inc.php';
+	if (false === (@include '../../main.inc.php')) {  // From htdocs directory
+		require '../../../main.inc.php'; // From "custom" directory
+	}
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/commande/class/commande.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/order.lib.php';
