@@ -63,10 +63,14 @@ auth_i=Allows to require that your addressees authenticate by verifying their e-
 auth_i_2=Permet d'exiger que vos destinataires s'identifient en vérifiant leur adresse e-mail avant qu'ils accèdent à votre pièce jointe. De cette manière, ils ne pourront pas facilement faire accéder des personnes tierces à votre fichier. Combiné à l'option d'interdiction de téléchargement, cette option vous permet de fortement limiter le risque que votre document soit divulgué. 
 no_t_i=Allows to send the file directly by e-mail, to benefit from particular follow-up except the tracking of the e-mail.
 no_t_i_2=Permet d'envoyer le fichier directement par e-mail, sans bénéficier de suivi particulier hormis le suivi de l'e-mail.
-initializedError=Cannot initialize module : %s
+initializedError=Cannot initialize module, %s
+initializedErrorLastname=please enter your name in your user profile
+initializedErrorFirstname=please enter your first name in your user profile
+initializedErrorEmail=please enter your email in your user profile
 uploadError=Cannot upload 
 attachfile=Attachement file :
 mailsendto=This e-mail is also sent to :
+notactive=Please activate the module using the activation link you received by e-mail, you will be redirected to the regular e-mail sending menu (without tracking).
 notenoughcredit=You have no more enough sending of e-mail available on your account Dolimail to send an e-mail, you go will be redirected to the menu of sending of classic e-mail (without tracking).
 nobusiness=You have no access to this option, to activate it <a href='https://dolimail.fr/' target='_blank' style='font-weight:bold;'>please subscribe to the professional offer</a>
 nosms=You cannot use the SMS feature because you have no number of mobile registered in your index form, you can registerhim(it) on the page <a href="%s">Ma fiche</a> in the field [Tél portable]
@@ -97,6 +101,8 @@ minor_buy=Minimum d\'achat
 minor_buy_title=Montant inférieur au minimum
 paypal_title=Payer via Paypal
 wait_title=En attente de validation email
+initializedSuccessful=Module initialized, an activation email was sent to you on %s
+initializedSuccessfulUpdate=Module initialized
 # Legende
 think_day=Idea of ​​the day
 # Page historique

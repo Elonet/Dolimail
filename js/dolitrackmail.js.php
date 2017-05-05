@@ -294,10 +294,11 @@
 		$formmail->param['models'] = 'propal_send';
 		$formmail->param['models_id']=GETPOST('modelmailselectedtrack','int');
 		$formmail->param['id'] = $object->id;
+		//COrrection version
 		$version = versiondolibarrarray();
 		if($version[0] == 3) {
 			$formmail->param['returnurl'] = DOL_URL_ROOT . '/comm/propal.php?id=' . $object->id;
-		} else if($version[0] == 4) {
+		} else if($version[0] == 4 || $version[0] == 5) {
 			$formmail->param['returnurl'] = DOL_URL_ROOT . '/comm/propal/card.php?id=' . $object->id;
 		}
 		// Init list of files

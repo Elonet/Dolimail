@@ -54,7 +54,7 @@ class modDolitrackmail extends DolibarrModules {
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
 		$this->description = $langs->trans("InfoDescriptionDolitrackmail");
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
-		$this->version = '1.0';
+		$this->version = '1.1';
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_DOLITRACKMAIL';
 		// Where to store the module in setup page (0=common,1=interface,2=other)
@@ -161,7 +161,7 @@ class modDolitrackmail extends DolibarrModules {
 	function init($options='') {
 		global $conf, $langs, $user;
 		$this->load_tables();
-
+		$langs->load('dolitrackmail@dolitrackmail');
 		//Lastname, Firstname, Email
 		$url = 'https://dolimail.fr/server/apikey.php';
 		$fields = array(
@@ -189,8 +189,7 @@ class modDolitrackmail extends DolibarrModules {
 		curl_close($ch);
 
 		$result = json_decode($result,true);
-		if ($info['http_code'] == 201 && $result['success'])
-		{
+		if ($info['http_code'] == 201 && $result['success']) {
 			dolibarr_set_const($this->db, 'DOLIMAIL_APIKEY', $result['data']['apikey']);
 			dolibarr_set_const($this->db, 'CF_DIS_CLASSIC', $result['data']['cf_dis_classic']);
 			dolibarr_set_const($this->db, 'CF_AL_BY_SMS', $result['data']['cf_al_by_sms']);
@@ -206,10 +205,22 @@ class modDolitrackmail extends DolibarrModules {
 			} else {
 				dolibarr_set_const($this->db, 'ADMIN_MAIL', $result['data']['admin_mail']);
 			}
-		}
-		else
-		{
-			setEventMessage($langs->trans("initializedError",$result['data']['message']), 'errors');
+			if($result['data']['update'] == 0) {
+				setEventMessage($langs->trans("initializedSuccessful",$user->email));
+			} else if($result['data']['update'] == 1) {
+				setEventMessage($langs->trans("initializedSuccessfulUpdate"));
+			}
+		} else {			
+			if($result['data']['arg'] == "lastname") {
+				setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorLastname")), 'errors');
+			}
+			if($result['data']['arg'] == "firstname") {
+				setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorFirstname")), 'errors');
+			}
+			if($result['data']['arg'] == "email") {
+				setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorEmail")), 'errors');
+			}
+			return 0;			
 		}
 
         $sql = array();

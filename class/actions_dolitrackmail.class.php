@@ -755,16 +755,31 @@ class ActionsDolitrackmail {
 						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 						//Redirection vers l'ajax normal si les crédits sont utilisés
 						$.ajax({
-							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
 							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
+								} else {
+									$.ajax({
+										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+										type: "POST",
+										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										dataType: "text",
+										success: function(html){
+											if(html == 0) {
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												setTimeout(function () {
+												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												}, 5000);
+											}
+										}
+									});
 								}
 							}
 						});
@@ -806,19 +821,34 @@ class ActionsDolitrackmail {
 						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 						//Redirection vers l'ajax normal si les crédits sont utilisés
 						$.ajax({
-							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
 							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
+								} else {
+									$.ajax({
+										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+										type: "POST",
+										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										dataType: "text",
+										success: function(html){
+											if(html == 0) {
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												setTimeout(function () {
+												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												}, 5000);
+											}
+										}
+									});
 								}
 							}
-						});						 
+						});
 					});
 				</script>
 				<?php
@@ -857,16 +887,31 @@ class ActionsDolitrackmail {
 						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 						//Redirection vers l'ajax normal si les crédits sont utilisés
 						$.ajax({
-							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
 							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
+								} else {
+									$.ajax({
+										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+										type: "POST",
+										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										dataType: "text",
+										success: function(html){
+											if(html == 0) {
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												setTimeout(function () {
+												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												}, 5000);
+											}
+										}
+									});
 								}
 							}
 						});
@@ -908,16 +953,31 @@ class ActionsDolitrackmail {
 						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 						//Redirection vers l'ajax normal si les crédits sont utilisés
 						$.ajax({
-							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
 							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
+								} else {
+									$.ajax({
+										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+										type: "POST",
+										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										dataType: "text",
+										success: function(html){
+											if(html == 0) {
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												setTimeout(function () {
+												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												}, 5000);
+											}
+										}
+									});
 								}
 							}
 						});
@@ -959,16 +1019,31 @@ class ActionsDolitrackmail {
 						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 						//Redirection vers l'ajax normal si les crédits sont utilisés
 						$.ajax({
-							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
 							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
+								} else {
+									$.ajax({
+										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+										type: "POST",
+										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										dataType: "text",
+										success: function(html){
+											if(html == 0) {
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												setTimeout(function () {
+												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												}, 5000);
+											}
+										}
+									});
 								}
 							}
 						});
@@ -1010,16 +1085,31 @@ class ActionsDolitrackmail {
 						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 						//Redirection vers l'ajax normal si les crédits sont utilisés
 						$.ajax({
-							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
 							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
+								} else {
+									$.ajax({
+										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+										type: "POST",
+										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										dataType: "text",
+										success: function(html){
+											if(html == 0) {
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												setTimeout(function () {
+												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												}, 5000);
+											}
+										}
+									});
 								}
 							}
 						});
@@ -1061,16 +1151,31 @@ class ActionsDolitrackmail {
 						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 						//Redirection vers l'ajax normal si les crédits sont utilisés
 						$.ajax({
-							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
 							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
+								} else {
+									$.ajax({
+										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+										type: "POST",
+										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										dataType: "text",
+										success: function(html){
+											if(html == 0) {
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												setTimeout(function () {
+												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												}, 5000);
+											}
+										}
+									});
 								}
 							}
 						});
@@ -1112,16 +1217,31 @@ class ActionsDolitrackmail {
 						$("html, body").animate({ scrollTop: $(document).height() }, "slow");
 						//Redirection vers l'ajax normal si les crédits sont utilisés
 						$.ajax({
-							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
 							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
+								} else {
+									$.ajax({
+										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
+										type: "POST",
+										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										dataType: "text",
+										success: function(html){
+											if(html == 0) {
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												setTimeout(function () {
+												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												}, 5000);
+											}
+										}
+									});
 								}
 							}
 						});

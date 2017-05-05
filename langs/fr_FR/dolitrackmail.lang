@@ -63,10 +63,14 @@ auth_i=Le fichier sera récupérable sans avoir à s'identifier. Ainsi si votre 
 auth_i_2=Permet d'exiger que vos destinataires s'identifient en vérifiant leur adresse e-mail avant qu'ils accèdent à votre pièce jointe. De cette manière, ils ne pourront pas facilement faire accéder des personnes tierces à votre fichier. Combiné à l'option d'interdiction de téléchargement, cette option vous permet de fortement limiter le risque que votre document soit divulgué. 
 no_t_i=Le fichier sera hebergé sur dolimail.fr, vous permettant d'être alerté à chaque ouverture du fichier.
 no_t_i_2=Permet d'envoyer le fichier directement par e-mail, sans bénéficier de suivi particulier hormis le suivi de l'e-mail.
-initializedError=Cannot initialize module : %s
+initializedError=Impossible d'initialisé le module, %s
+initializedErrorLastname=veuillez inscrire votre nom dans votre profil utilisateur
+initializedErrorFirstname=veuillez inscrire votre prenom dans votre profil utilisateur
+initializedErrorEmail=veuillez inscrire votre email dans votre profil utilisateur
 uploadError=Cannot upload 
 attachfile=Fichiers joints :
-mailsendto=Cette e-mail a également envoyé à : 
+mailsendto=Cette e-mail a également envoyé à :
+notactive=Veuillez activer le module en utilisant le lien d'activation que vous avez reçu par e-mail, vous allez être redirigé sur le menu d'envoi d'e-mail classique (sans suivi).
 notenoughcredit=Vous n'avez plus assez d'envoi d'e-mail disponible sur votre compte Dolimail pour envoyer un e-mail, vous allez être redirigé sur le menu d'envoi d'e-mail classique (sans suivi).
 nobusiness=Vous n'avez pas accès à cette option, pour l'activer <a href='https://dolimail.fr/' target='_blank' style='font-weight:bold;'>veuillez souscrire à l'offre Business</a>
 nosms=Vous ne pouvez pas utiliser la fonctionnalité SMS car vous n'avez pas de numéro de mobile enregistré dans votre fiche, vous pouvez l'enregistrer sur la page <a href="%s">Ma fiche</a> dans le champ [Tél portable]
@@ -97,6 +101,8 @@ minor_buy=Minimum d\'achat
 minor_buy_title=Montant inférieur au minimum
 paypal_title=Payer via Paypal
 wait_title=En attente de validation email
+initializedSuccessful=Module initialisé, un email d'activation vous a été envoyé sur %s
+initializedSuccessfulUpdate=Module initialisé
 # Legende
 think_day=Idée du jour
 # Page historique
