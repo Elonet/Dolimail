@@ -1310,30 +1310,30 @@
 	$title_attachment_notk.= "<img src='".$path_img."icone_trackon.png' class='' height='24' align='left' style='margin-right:4px;'/>".$langs->trans("no_t_i_2");
 	
 	//Prepare idea
-	$url = 'https://dolimail.fr/server/idea.php';
-	$fields = array(
-		'lang' => $langs->defaultlang
-	);
+	// $url = 'https://dolimail.fr/server/idea.php';
+	// $fields = array(
+		// 'lang' => $langs->defaultlang
+	// );
 
-	foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-	rtrim($fields_string, '&');
+	// foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+	// rtrim($fields_string, '&');
 
-	$ch = curl_init();
-	curl_setopt($ch,CURLOPT_URL, $url);
-	curl_setopt($ch,CURLOPT_POST, count($fields));
-	curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-	curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch,CURLOPT_HEADER, false);
-	curl_setopt($ch,CURLOPT_FOLLOWLOCATION, false);
-	curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, 120);
-	curl_setopt($ch,CURLOPT_TIMEOUT, 120);
+	// $ch = curl_init();
+	// curl_setopt($ch,CURLOPT_URL, $url);
+	// curl_setopt($ch,CURLOPT_POST, count($fields));
+	// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+	// curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+	// curl_setopt($ch,CURLOPT_HEADER, false);
+	// curl_setopt($ch,CURLOPT_FOLLOWLOCATION, false);
+	// curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, 120);
+	// curl_setopt($ch,CURLOPT_TIMEOUT, 120);
 
-	$result = curl_exec($ch);
-	$info = curl_getinfo($ch);
-	curl_close($ch);
+	// $result = curl_exec($ch);
+	// $info = curl_getinfo($ch);
+	// curl_close($ch);
 
-	$result = json_decode($result,true);
-	$legende = addslashes("<div style='margin-top:40px;'><center><h3><img src='".$path_img."ampoule.png' align='' height='24'/>".$langs->trans("think_day")."</h3>".$result['data']['idea']."</center></div>");
+	// $result = json_decode($result,true);
+	// $legende = addslashes("<div style='margin-top:40px;'><center><h3><img src='".$path_img."ampoule.png' align='' height='24'/>".$langs->trans("think_day")."</h3>".$result['data']['idea']."</center></div>");
 	//Make class disable for prevent access
 ?>
 $(document).ready(function() {
@@ -1656,7 +1656,7 @@ $(window).load(function() {
 });
 //Ajout de la légende et déplacement du sujet dans l'interface & ajout du bouton de désactivation des liens & ajout du bouton de désactivation des copies
 $(window).load(function() {
-	$(".side-nav").append('<?php echo $legende; ?>');
+	// $(".side-nav").append('<?php echo $legende; ?>');
 	$('.border').moveRow(4, 5);
 	$('.border tr:last').after('<tr><td><?php echo $langs->trans("desactivatelink"); ?><img src="<?php echo $path_img; ?>info.png" border="0" alt="" title="<?php echo $langs->trans("desactivatelinkdesc"); ?>" class="hideonsmartphone"></td><td><input type="checkbox" name="disable_old" id="disable_old"/></td></tr>');
 	$('.border tr:last').after('<tr><td><?php echo $langs->trans("desactivatefollow"); ?><img src="<?php echo $path_img; ?>info.png" border="0" alt="" title="<?php echo $langs->trans("desactivatefollowdesc"); ?>" class="hideonsmartphone"></td><td><input type="checkbox" name="disable_follow" id="disable_follow"/></td></tr>');

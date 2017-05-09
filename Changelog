@@ -1,3 +1,9 @@
 Version 1.0 :
-- Compatibility with Dolibarr 3.9
-- Compatibility with Dolibarr 4.0
+- Compatibility with Dolibarr 3.9.x
+- Compatibility with Dolibarr 4.0.x
+
+Version 1.1 :
+- Compatibility with Dolibarr 5.0.x
+
+Version 1.2 :
+- Compatibility with md theme
