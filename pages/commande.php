@@ -46,10 +46,11 @@ $langs->load("sendings");
 $langs->load('dolitrackmail@dolitrackmail');
 
 // Security check
-$socid=0;
 $comid = GETPOST("id",'int');
-if ($user->societe_id) $socid=$user->societe_id;
-$result=restrictedArea($user,'commande',$comid,'');
+// Security check
+if(!$user->rights->Dolitrackmail->order->read) {
+	accessforbidden();
+}
 
 
 /*

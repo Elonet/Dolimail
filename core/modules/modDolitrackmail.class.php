@@ -109,45 +109,69 @@ class modDolitrackmail extends DolibarrModules {
 		// Permissions
 		$this->rights = array();		// Permission array used by this module
 		$r=0;
-		// $this->rights[$r][0] = 500122215; 				// Permission id (must not be already used)
-		// $this->rights[$r][1] = 'Approver';	// Permission label
-		// $this->rights[$r][3] = 0; 					// Permission by default for new user (0/1)
-		// $this->rights[$r][4] = 'approval';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		// $this->rights[$r][5] = 'team';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
-		// $r++;
-
+		$this->rights[$r][0] = 5001221;
+		$this->rights[$r][1] = 'View tracking history of commercial proposals';
+		$this->rights[$r][3] = 0;
+		$this->rights[$r][4] = 'propal';
+		$this->rights[$r][5] = 'read';
+		$r++;	
+		$this->rights[$r][0] = 5001222;
+		$this->rights[$r][1] = 'View tracking history of customers orders';
+		$this->rights[$r][3] = 0;
+		$this->rights[$r][4] = 'order';
+		$this->rights[$r][5] = 'read';
+		$r++;
+		$this->rights[$r][0] = 5001223;
+		$this->rights[$r][1] = 'View tracking history of supplier orders';
+		$this->rights[$r][3] = 0;
+		$this->rights[$r][4] = 'supplier_order';
+		$this->rights[$r][5] = 'read';
+		$r++;
+		$this->rights[$r][0] = 5001224;
+		$this->rights[$r][1] = 'View tracking history of customer invoices';
+		$this->rights[$r][3] = 0;
+		$this->rights[$r][4] = 'invoice';
+		$this->rights[$r][5] = 'read';
+		$r++;
+		$this->rights[$r][0] = 5001225;
+		$this->rights[$r][1] = 'View tracking history of supplier invoices';
+		$this->rights[$r][3] = 0;
+		$this->rights[$r][4] = 'supplier_invoice';
+		$this->rights[$r][5] = 'read';
+		$r++;
+		$this->rights[$r][0] = 5001226;
+		$this->rights[$r][1] = 'View tracking history of sendings';
+		$this->rights[$r][3] = 0;
+		$this->rights[$r][4] = 'delivery';
+		$this->rights[$r][5] = 'read';
+		$r++;
+		$this->rights[$r][0] = 5001227;
+		$this->rights[$r][1] = 'View tracking history of commercial margins';
+		$this->rights[$r][3] = 0;
+		$this->rights[$r][4] = 'supplier_proposal';
+		$this->rights[$r][5] = 'read';
+		$r++;
+		$this->rights[$r][0] = 5001228;
+		$this->rights[$r][1] = 'View tracking history of third parties';
+		$this->rights[$r][3] = 0;
+		$this->rights[$r][4] = 'thirdparty';
+		$this->rights[$r][5] = 'read';
+		$r++;
 
 		// Main menu entries
 		$this->menu = array();			// List of menus to add
 		$r = 0;
-	   // Example to declare a Left Menu entry:
-		/*$this->menu[$r]=array(
-			'fk_menu'=>'fk_mainmenu=commercial,fk_leftmenu=orders',	// Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode of parent menu
-			'type'=>'left',			// This is a Left menu entry
-			'titre'=>'Mes commandes clients',
-			'mainmenu'=>'',
-			'leftmenu'=>'',
-			'url'=>'/subjectattribution/myorders.php',
-			'langs'=>'subjectattribution',	// Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
-			'position'=>2,
-			'enabled'=>'1',			// Define condition to show or hide menu entry. Use '$conf->monmodule->enabled' if entry must be visible if module is enabled.
-			'perms'=>'1',			// Use 'perms'=>'$user->rights->monmodule->level1->level2' if you want your menu with a permission rules
-			'target'=>'',
-			'user'=>2
-		);				// 0=Menu for internal users,1=external users, 2=both
-		$r++;
-		
-		*/
+
 		// New pages on tabs
 		$this->tabs = array(
-			'propal:+tracking:historique:@dolitrackmail:1:/dolitrackmail/pages/propal.php?id=__ID__',
-			'order:+tracking:historique:@dolitrackmail:1:/dolitrackmail/pages/commande.php?id=__ID__',
-			'supplier_order:+tracking:historique:@dolitrackmail:1:/dolitrackmail/pages/commande_fourn.php?id=__ID__',
-			'invoice:+tracking:historique:@dolitrackmail:1:/dolitrackmail/pages/facture.php?id=__ID__',
-			'supplier_invoice:+tracking:historique:@dolitrackmail:1:/dolitrackmail/pages/facture_fourn.php?id=__ID__',
-			'delivery:+tracking:historique:@dolitrackmail:1:/dolitrackmail/pages/expedition.php?id=__ID__',		
-			'supplier_proposal:+tracking:historique:@dolitrackmail:1:/dolitrackmail/pages/propal_fourn.php?id=__ID__',		
-			'thirdparty:+tracking:historique:@dolitrackmail:1:/dolitrackmail/pages/tier.php?id=__ID__'		
+			'propal:+tracking:historique:@dolitrackmail:$user->rights->Dolitrackmail->propal->read:/dolitrackmail/pages/propal.php?id=__ID__',
+			'order:+tracking:historique:@dolitrackmail:$user->rights->Dolitrackmail->order->read:/dolitrackmail/pages/commande.php?id=__ID__',
+			'supplier_order:+tracking:historique:@dolitrackmail:$user->rights->Dolitrackmail->supplier_order->read:/dolitrackmail/pages/commande_fourn.php?id=__ID__',
+			'invoice:+tracking:historique:@dolitrackmail:$user->rights->Dolitrackmail->invoice->read:/dolitrackmail/pages/facture.php?id=__ID__',
+			'supplier_invoice:+tracking:historique:@dolitrackmail:$user->rights->Dolitrackmail->supplier_invoice->read:/dolitrackmail/pages/facture_fourn.php?id=__ID__',
+			'delivery:+tracking:historique:@dolitrackmail:$user->rights->Dolitrackmail->delivery->read:/dolitrackmail/pages/expedition.php?id=__ID__',
+			'supplier_proposal:+tracking:historique:@dolitrackmail:$user->rights->Dolitrackmail->supplier_proposal->read:/dolitrackmail/pages/propal_fourn.php?id=__ID__',
+			'thirdparty:+tracking:historique:@dolitrackmail:$user->rights->Dolitrackmail->thirdparty->read:/dolitrackmail/pages/tier.php?id=__ID__'
 		);
 	}
 

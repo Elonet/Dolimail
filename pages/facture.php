@@ -44,9 +44,12 @@ function duree($time) {
 $langs->load("bills");
 $langs->load('dolitrackmail@dolitrackmail');
 
-// Security check
-$socid=0;
 $comid = GETPOST("id",'int');
+// Security check
+if(!$user->rights->Dolitrackmail->invoice->read) {
+	accessforbidden();
+}
+
 /*
  * View
  */

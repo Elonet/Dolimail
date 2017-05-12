@@ -49,9 +49,9 @@ $id=GETPOST('id','int');
 $socid=GETPOST('socid','int');
 
 // Security check
-if (! empty($user->societe_id)) $socid=$user->societe_id;
-$result = restrictedArea($user, 'propal', $id);
-
+if(!$user->rights->Dolitrackmail->propal->read) {
+	accessforbidden();
+}
 
 /*
  *	View

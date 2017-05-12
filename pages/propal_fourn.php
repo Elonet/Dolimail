@@ -48,8 +48,9 @@ $langs->load('dolitrackmail@dolitrackmail');
 $id = GETPOST("id",'int');
 
 // Security check
-if ($user->societe_id) $socid=$user->societe_id;
-$result = restrictedArea($user, 'expedition', $id);
+if(!$user->rights->Dolitrackmail->supplier_proposal->read) {
+	accessforbidden();
+}
 
 
 

@@ -49,9 +49,9 @@ $id=GETPOST('id','int');
 $ref=GETPOST('ref','alpha');
 
 // Security check
-$socid='';
-if (! empty($user->societe_id)) $socid=$user->societe_id;
-$result = restrictedArea($user, 'fournisseur', $id, '', 'commande');
+if(!$user->rights->Dolitrackmail->supplier_order->read) {
+	accessforbidden();
+}
 
 
 /*
