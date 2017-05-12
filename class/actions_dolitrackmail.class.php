@@ -187,7 +187,7 @@ class ActionsDolitrackmail {
 	}
 
 	function doActions($parameters=false, &$object, &$action='') {
-		global $conf,$user,$langs,$mysoc,$soc,$societe;
+		global $conf,$user,$langs,$mysoc,$soc,$societe,$db;
 
 
 		if (is_array($parameters) && ! empty($parameters)) {
@@ -248,7 +248,8 @@ class ActionsDolitrackmail {
 			$mode='emailfromthirdparty';
 		}
 		
-		
+		if (GETPOST('modelselectedtrack')) $action = 'presendtrack';
+
 		/*
 		 * Add file in email form
 		 */
@@ -318,7 +319,7 @@ class ActionsDolitrackmail {
 		/*
 		 * Send mail
 		 */
-		if (($action == 'sendtrack') && ! $_POST['addfiletrack'] && ! $_POST['removAlltrack'] && ! $_POST['removedfiletrack'] && ! $_POST['canceltrack'] && !$_POST['modelselectedtrack']) {
+		if (($action == 'sendtrack') && ! $_POST['addfiletrack'] && ! $_POST['removAlltrack'] && ! $_POST['removedfiletrack'] && ! $_POST['canceltrack']) {
 			if($conf->dolimail->enabled) $langs->load("dolimail@dolimail");
 			$langs->load('mails');
 
@@ -596,16 +597,24 @@ class ActionsDolitrackmail {
 								}
 
 								// Initialisation of datas
-								$object->socid			= $sendtosocid;	// To link to a company
-								$object->sendtoid		= $sendtoid;	// To link to a contact/address
-								$object->actiontypecode	= $actiontypecode;
-								$object->actionmsg		= $actionmsg;  // Long text
-								$object->actionmsg2		= $actionmsg2; // Short text
-								$object->trackid        = $trackid;
-								$object->fk_element		= $object->id;
-								$object->elementtype	= $object->element;
-
-								// End call of triggers
+								if (is_object($object))	{
+											$object->socid			= $sendtosocid;	// To link to a company
+											$object->sendtoid		= $sendtoid;	// To link to a contact/address
+											$object->actiontypecode	= $actiontypecode;
+											$object->actionmsg		= $actionmsg;  // Long text
+											$object->actionmsg2		= $actionmsg2; // Short text
+											$object->trackid        = $trackid;
+											$object->fk_element		= $object->id;
+											$object->elementtype	= $object->element;
+											// Call of triggers
+									include_once DOL_DOCUMENT_ROOT . '/core/class/interfaces.class.php';
+									$interface=new Interfaces($db);
+									$result=$interface->run_triggers($trigger_name,$object,$user,$langs,$conf);
+									if ($result < 0) {
+										$error++; $errors=$interface->errors;
+									}
+											// End call of triggers
+								}
 
 								if ($error)	{
 									dol_print_error($db);
@@ -662,7 +671,6 @@ class ActionsDolitrackmail {
 				$action = 'presendtrack';
 			}
 		}
-        return 0;
 	}
 	
 	function contact_property_array_dolitrackmail($mode='email', $hidedisabled=0, $id) {
@@ -728,7 +736,7 @@ class ActionsDolitrackmail {
 			}
 		}
 		$element = $object->element;
-
+		$request = '&mode='.$_REQUEST['mode'].'&modelmailselectedtrack='.$_REQUEST['modelmailselectedtrack'].'&modelselectedtrack='.$_REQUEST['modelselectedtrack'].'&sendto='.$_REQUEST['sendto'].'&message='.$_REQUEST['message'].'&subject='.$_REQUEST['subject'];
 		if ($element == 'propal') $element = 'propale';
 
 		if ($element == 'propale') {
@@ -739,7 +747,7 @@ class ActionsDolitrackmail {
 						<?php foreach ($this->thirdparty_and_contact_email_array_dolitrackmail(1,$object->thirdparty) as $key=>$value) echo '{ email:"'.$key.'", label:"'.$value.'"},'; ?>
 					];	
 				</script>
-				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.'&mode='.$_REQUEST['mode'],1) ?>"></script>
+				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.$request,1) ?>"></script>
 				<style>
 					.buttoni {margin: 5px 5px 0 5px;cursor: pointer;width: 18px;height: 18px;float: left;text-align: center;}
 					.option img {height:24px;margin-left:4px;margin-right:4px;}
@@ -805,7 +813,7 @@ class ActionsDolitrackmail {
 						<?php foreach ($this->thirdparty_and_contact_email_array_dolitrackmail(1,$object->thirdparty) as $key=>$value) echo '{ email:"'.$key.'", label:"'.$value.'"},'; ?>
 					];	
 				</script>
-				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.'&mode='.$_REQUEST['mode'],1) ?>" ></script>
+				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.$request,1) ?>"></script>
 				<style>
 					.buttoni {margin: 5px 5px 0 5px;cursor: pointer;width: 18px;height: 18px;float: left;text-align: center;}
 					.option img {height:24px;margin-left:4px;margin-right:4px;}
@@ -871,7 +879,7 @@ class ActionsDolitrackmail {
 						<?php foreach ($this->thirdparty_and_contact_email_array_dolitrackmail(1,$object->thirdparty) as $key=>$value) echo '{ email:"'.$key.'", label:"'.$value.'"},'; ?>
 					];	
 				</script>
-				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.'&mode='.$_REQUEST['mode'],1) ?>"></script>
+				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.$request,1) ?>"></script>
 				<style>
 					.buttoni {margin: 5px 5px 0 5px;cursor: pointer;width: 18px;height: 18px;float: left;text-align: center;}
 					.option img {height:24px;margin-left:4px;margin-right:4px;}
@@ -937,7 +945,7 @@ class ActionsDolitrackmail {
 						<?php foreach ($this->thirdparty_and_contact_email_array_dolitrackmail(1,$object->thirdparty) as $key=>$value) echo '{ email:"'.$key.'", label:"'.$value.'"},'; ?>
 					];	
 				</script>
-				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.'&mode='.$_REQUEST['mode'],1) ?>"></script>
+				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.$request,1) ?>"></script>
 				<style>
 					.buttoni {margin: 5px 5px 0 5px;cursor: pointer;width: 18px;height: 18px;float: left;text-align: center;}
 					.option img {height:24px;margin-left:4px;margin-right:4px;}
@@ -1003,7 +1011,7 @@ class ActionsDolitrackmail {
 						<?php foreach ($this->thirdparty_and_contact_email_array_dolitrackmail(1,$object->thirdparty) as $key=>$value) echo '{ email:"'.$key.'", label:"'.$value.'"},'; ?>
 					];	
 				</script>
-				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.'&mode='.$_REQUEST['mode'],1) ?>"></script>
+				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.$request,1) ?>"></script>
 				<style>
 					.buttoni {margin: 5px 5px 0 5px;cursor: pointer;width: 18px;height: 18px;float: left;text-align: center;}
 					.option img {height:24px;margin-left:4px;margin-right:4px;}
@@ -1069,7 +1077,7 @@ class ActionsDolitrackmail {
 						<?php foreach ($this->thirdparty_and_contact_email_array_dolitrackmail(1,$object->thirdparty) as $key=>$value) echo '{ email:"'.$key.'", label:"'.$value.'"},'; ?>
 					];	
 				</script>
-				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.'&mode='.$_REQUEST['mode'],1) ?>"></script>
+				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.$request,1) ?>"></script>
 				<style>
 					.buttoni {margin: 5px 5px 0 5px;cursor: pointer;width: 18px;height: 18px;float: left;text-align: center;}
 					.option img {height:24px;margin-left:4px;margin-right:4px;}
@@ -1135,7 +1143,7 @@ class ActionsDolitrackmail {
 						<?php foreach ($this->thirdparty_and_contact_email_array_dolitrackmail(1,$object->thirdparty) as $key=>$value) echo '{ email:"'.$key.'", label:"'.$value.'"},'; ?>
 					];	
 				</script>
-				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.'&mode='.$_REQUEST['mode'],1) ?>"></script>
+				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.$request,1) ?>"></script>
 				<style>
 					.buttoni {margin: 5px 5px 0 5px;cursor: pointer;width: 18px;height: 18px;float: left;text-align: center;}
 					.option img {height:24px;margin-left:4px;margin-right:4px;}
@@ -1201,7 +1209,7 @@ class ActionsDolitrackmail {
 						<?php foreach ($this->thirdparty_and_contact_email_array_dolitrackmail(1,$object) as $key=>$value) echo '{ email:"'.$key.'", label:"'.$value.'"},'; ?>
 					];	
 				</script>
-				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.'&mode='.$_REQUEST['mode'],1) ?>"></script>
+				<script type="text/javascript" src="<?php echo dol_buildpath('/dolitrackmail/js/dolitrackmail.js.php?id='.$object->id.'&el='.$element.$request,1) ?>"></script>
 				<style>
 					.buttoni {margin: 5px 5px 0 5px;cursor: pointer;width: 18px;height: 18px;float: left;text-align: center;}
 					.option img {height:24px;margin-left:4px;margin-right:4px;}

@@ -14,7 +14,13 @@
 	require_once DOL_DOCUMENT_ROOT . '/core/class/extrafields.class.php';
 	require_once DOL_DOCUMENT_ROOT . '/core/class/doleditor.class.php';
 	require_once(DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php");
-		
+	
+	//Transmission des variables GET en POST pour conserver le message lors d'un upload
+	if(!$_REQUEST['modelselectedtrack']) {
+		$_POST['message'] = $_GET['message'];
+		$_POST['subject'] = $_GET['subject'];
+	}
+	
 	if ($element == 'commande') {
 		$langs->load('orders');
 		$langs->load('commercial');
@@ -1358,7 +1364,7 @@ $(document).ready(function() {
 	//Gestion du addtrack et du removetrack et des modèles
 	$("#addfile").attr("name","addfiletrack").attr("id","addfiletrack");
 	$("[name='removedfile']").attr("name","removedfiletrack");
-	$("#modelmailselectedtrack").attr("name","modelmailselectedtracktrack").attr("id","modelmailselectedtracktrack");
+	$("#modelmailselected").attr("name","modelmailselectedtrack").attr("id","modelmailselectedtrack");
 	$("#modelselected").attr("name","modelselectedtrack").attr("id","modelselectedtrack");
 	
 	$(".removedfile").css("height","20px").css("margin-bottom","4px").attr("src","<?php echo $path_img."corbeille.png"; ?>");
@@ -1417,6 +1423,8 @@ $(document).ready(function() {
 					else {
 						var newdiv = "<div style='width:100%;display:inline-block;'><img id='remove' class='buttoni' style='opacity:0.8;' src='<?php echo $path_img."moins.png"; ?>'/><div style='margin-bottom:8px;' class='email-div'><?php echo $input_to; ?></div><?php echo $icone_interface; ?></div>";
 						$('#first').parent().parent().append(newdiv);
+						// var emails = $("#sendto").val().split(",");
+						// $(".email:last").val(emails[counter-1]);
 						counter++;
 						//Gestion de l'autocompletion
 						$('.email').on("focus", function(){
@@ -1473,6 +1481,18 @@ $(document).ready(function() {
 		$(this).trigger(jQuery.Event("keydown"));
 	});
 	
+	//Gestion email sur upload
+	// if($("#sendto").val() != "") {
+		// var emails = $("#sendto").val().split(",");
+		// if(emails.length>1) {
+			// for(var i=1;i<emails.length;i++) {
+				// $("#add").click();
+			// }
+		// } else {
+			// $(".email:last").val(emails[0]);
+		// }
+	// }
+	
 	
 	//Gestion des clics images	
 	$(document).on("click", ".no_dl_i", function() {	
@@ -1524,45 +1544,62 @@ $(document).ready(function() {
 	$(document).on("click", "#cancel", function() {
 		window.location.replace("<?php echo $formmail->param['returnurl']; ?>");
 	});
-	
+  
 	//Gestion du submit
+	var submitActor = null;
+	var $form = $('#mailform');
+	var $submitActors = $form.find('input[type=submit]');
 	var form_submit = false;
+	$submitActors.click(function(event) {
+		submitActor = this;
+	});
 	$("#mailform").on("submit", function(e){
+		if (null === submitActor) {
+		  // If no actor is explicitly clicked, the browser will
+		  // automatically choose the first in source-order
+		  // so we do the same here
+		  submitActor = $submitActors[0];
+		}
 		var $remove = $(this).find('[name=removedfiletrack]');
 		var $add = $(this).find('[name=addedfile]');
+		//Récupération des emails
+		var mail = [];
+		var option_mail = [];
+		$(".email").each(function() {
+			if($(this).val() !== "") {
+				mail.push($(this).val());
+				if($(this).parent().parent().children(".option").children(".al_s_o_a").is(":checked")) {
+					var al_s_o_a = 1;
+				} else {
+					var al_s_o_a = 0;
+				}
+				if($(this).parent().parent().children(".option").children(".al_e_o_a").is(":checked")) {
+					var al_e_o_a = 1;
+				} else {
+					var al_e_o_a = 0;
+				}
+				if($(this).parent().parent().children(".option").children(".al_s_o_e").is(":checked")) {
+					var al_s_o_e = 1;
+				} else {
+					var al_s_o_e = 0;
+				}
+				if($(this).parent().parent().children(".option").children(".al_e_o_e").is(":checked")) {
+					var al_e_o_e = 1;
+				} else {
+					var al_e_o_e = 0;
+				}
+				option_mail.push($(this).val()+"¤"+al_s_o_a+"¤"+al_e_o_a+"¤"+al_s_o_e+"¤"+al_e_o_e);
+			}
+		});
+		$("#sendto").val(mail.join(","));
 		if($add.val() == "" && $remove.val() == "") {
 			e.preventDefault();
-			//Récupération des emails
-			var mail = [];
-			var option_mail = [];
-			$(".email").each(function() {
-				if($(this).val() !== "") {
-					mail.push($(this).val());
-					if($(this).parent().parent().children(".option").children(".al_s_o_a").is(":checked")) {
-						var al_s_o_a = 1;
-					} else {
-						var al_s_o_a = 0;
-					}
-					if($(this).parent().parent().children(".option").children(".al_e_o_a").is(":checked")) {
-						var al_e_o_a = 1;
-					} else {
-						var al_e_o_a = 0;
-					}
-					if($(this).parent().parent().children(".option").children(".al_s_o_e").is(":checked")) {
-						var al_s_o_e = 1;
-					} else {
-						var al_s_o_e = 0;
-					}
-					if($(this).parent().parent().children(".option").children(".al_e_o_e").is(":checked")) {
-						var al_e_o_e = 1;
-					} else {
-						var al_e_o_e = 0;
-					}
-					option_mail.push($(this).val()+"¤"+al_s_o_a+"¤"+al_e_o_a+"¤"+al_s_o_e+"¤"+al_e_o_e);
-				}
-			});
-			$("#sendto").val(mail.join(","));
-			if ( form_submit ) {
+			//Si le bouton modele est cliqué, ajout d'un variable pour éviter l'envoi d'email
+			if(submitActor.name == "modelselectedtrack") {
+				$("<input />").attr("type", "hidden").attr("name", "modelselectedtrack").attr("value", "modelselectedtrack").appendTo("#mailform");
+			}
+			//Si le bouton modele est clique, go submit pour éviter la tentative d'upload
+			if (form_submit || submitActor.name != "sendmail") {
 				this.submit();
 			} else {
 				//Ajax envoi des fichiers
