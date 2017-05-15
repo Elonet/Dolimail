@@ -2,7 +2,7 @@ InfoDescriptionDolitrackmail=Module de suivi des e-mails et pièces jointes
 GeneralOption=Options générales
 GeneralOptionAdvice=Conseil d'expert : Si vous souhaitez faire appliquer une politique commerciale aggressive, vous pouvez obliger vos utilisateurs à utiliser ce service. Dans le cas d'une politique commerciale plus souple, laissez vos utilisateurs choisir en fonction de chacune de leurs correspondances.
 dolitrackmailSetup=Configuration du module Dolimail, votre module de suivi des e-mails et pièces jointes.
-dolitrackmailDescription=Cette page vous permet de configurer les options du module. Pour plus d'informations, consultez notre <a href="https://dolimail.fr/faq.php">foire aux questions</a>
+dolitrackmailDescription=Cette page vous permet de configurer les options du module. Pour plus d'informations, consultez notre <a href="https://dolimail.fr/faq.php">foire aux questions</a> ou nos <a href="https://dolimail.fr/cgu.php">conditions générales d'utilisations</a>
 dolitrackmailNewTitle=Information pour les administrateurs
 dolitrackmailNew=Une nouvelle version du module est disponible, veuillez cliquer sur ce lien pour la télécharger
 dolitrackmailFeature=Fonctionnalité disponible dans une prochaine version, consultez notre roadmap sur https://dolimail.fr/roadmap.php
@@ -12,6 +12,9 @@ cf_dis_classic_n=Désactivation de l'envoi classique d'e-mails
 cf_dis_classic_d=Oblige à utiliser Dolimail pour la relation client
 dolimail_admin_mail_n=Adresse e-mail de l'administrateur
 dolimail_admin_mail_d=Cette adresse sera utilisée pour l'envoi des notifications administrateurs (Rappel, Facture, etc...)
+dolimail_notactive=Veuillez activer le module en utilisant le lien d'activation que vous avez reçu par e-mail.<br/>Si vous ne l'avez pas reçu, veuillez vérifier l'adresse e-mail administrateur ci-dessus et cliquer sur le bouton pour en recevoir un nouveau
+dolimail_notactive_button=Envoyer un email d'activation
+dolimail_notactive_message=Email envoyé !
 DOLIMAIL_APIKEY_n=Clé API
 DOLIMAIL_APIKEY_d=Cette clé est un mot de passe qui est généré à l'installation du module et permet l'utilisation du relais de pièces jointes. En situation normale et sans consigne du <a href="https://dolimail.fr/index.php">service de support dolimail</a>, vous ne devriez pas la modifier
 AlarmOption=Options d'alarmes

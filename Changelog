@@ -1,13 +1,19 @@
-Version 1.0 :
-- Compatibility with Dolibarr 3.9.x
-- Compatibility with Dolibarr 4.0.x
-
-Version 1.1 :
-- Compatibility with Dolibarr 5.0.x
-
-Version 1.2 :
-- Compatibility with md theme
+Version 1.2.2 :
+- Add permissions to access historical pages
+- Addition of the possibility of return of an email for the activation of the account
+- Add Terms of Use link
+- Compatibility with IMAP config
 
 Version 1.2.1 :
 - Compatibility with model
 - Register event
+
+Version 1.2 :
+- Compatibility with md theme
+
+Version 1.1 :
+- Compatibility with Dolibarr 5.0.x
+
+Version 1.0 :
+- Compatibility with Dolibarr 3.9.x
+- Compatibility with Dolibarr 4.0.x

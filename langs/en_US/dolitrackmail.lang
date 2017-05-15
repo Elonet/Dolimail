@@ -2,7 +2,7 @@ InfoDescriptionDolitrackmail=Plug-in for tracking emails and attachment
 GeneralOption=General options
 GeneralOptionAdvice=Expert Advice : General options
 dolitrackmailSetup=Dolimail Plug-in setup, your emails and attachement tracking.
-dolitrackmailDescription=This page allow you to setup the plug-in options. For more informations, please visit our <a href="https://dolimail.fr/faq">FAQ</a> or our <a href="https://dolimail.fr/support">support</a>
+dolitrackmailDescription=This page allow you to setup the plug-in options. For more informations, please visit our <a href="https://dolimail.fr/faq">FAQ</a> or our <a href="https://dolimail.fr/cgu.php">terms of use</a>
 dolitrackmailNewTitle=Information for the administrator
 dolitrackmailNew=New version of the plugin is available, please visit the link to download it
 dolitrackmailFeature=The feature will be available in our next release, please consulte our roadmap at the following link https://dolimail.fr/roadmap
@@ -12,6 +12,9 @@ cf_dis_classic_n=Disable classic emailing
 cf_dis_classic_d=Force to use Dolimail for customer relation
 dolimail_admin_mail_n=Administrator email
 dolimail_admin_mail_d= This adress will be used for sending administrator notifications
+dolimail_notactive=Please activate the module using the activation link you received by e-mail.<br/> If you have not received it, please check the administrator email address above and click on the button to receive a new one
+dolimail_notactive_button=Send an activation email
+dolimail_notactive_message=Email sent !
 DOLIMAIL_APIKEY_n= API key
 DOLIMAIL_APIKEY_d= This key is a password which is generated in the installation of the plug-in and allows the use of the attachements relay. In normal situation and without instructions from the<a href="https://dolimail.fr/support">support service dolimail</a>, you should not modify it.
 AlarmOption=Options of alarms

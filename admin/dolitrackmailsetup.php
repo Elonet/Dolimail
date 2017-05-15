@@ -231,8 +231,52 @@ $Form .=(($cf_dis_classic=='1')?'checked':'')."></th></tr>";
 //ADMIN_MAIL
 $Form .='<tr class="impair"><th align="left">'.$langs->trans("dolimail_admin_mail_n").'</th>';
 $Form .='<th align="left">'.$langs->trans("dolimail_admin_mail_d").'</th>';
-$Form .='<th align="left"><input type="text" name="admin_mail" value="'.$admin_mail.'"></th></tr>';
+$Form .='<th align="left"><input type="text" name="admin_mail" id="admin_mail" value="'.$admin_mail.'"></th></tr>';
 
+//Verification de l'activation du compte
+$url = 'https://dolimail.fr/server/active.php';
+$fields = array(
+	'apikey' => urlencode($DOLIMAIL_APIKEY)
+);
+
+foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+rtrim($fields_string, '&');
+
+$ch = curl_init();
+curl_setopt($ch,CURLOPT_URL, $url);
+curl_setopt($ch,CURLOPT_POST, count($fields));
+curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch,CURLOPT_HEADER, false);
+curl_setopt($ch,CURLOPT_FOLLOWLOCATION, false);
+curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, 120);
+curl_setopt($ch,CURLOPT_TIMEOUT, 120);
+
+$result = curl_exec($ch);
+$info = curl_getinfo($ch);
+curl_close($ch);
+$result = json_decode($result,true);
+if($result['data']['active'] == 0) {
+	$Form .='<tr class="pair"><th align="center" colspan="3"><b style="color:red;">'.$langs->trans("dolimail_notactive").'</b><br/><br/><button id="active" type="button" class="butAction" style="background:-webkit-linear-gradient(top, #5cb85c 0%, #419641 100%);border-color: #398439;color: #fff;" target="_blank">'.$langs->trans("dolimail_notactive_button").'</button><b id="active_message" style="color:green;display:none;">'.$langs->trans("dolimail_notactive_message").'</b></th>';
+	$Form .= '
+				<script>
+					$(document).on("click","#active", function() {
+						$.ajax({
+							url: "'.DOL_URL_ROOT.'/dolitrackmail/ajax/activate.php'.'",
+							type: "POST",
+							data: {
+								apikey: "'.DOLIMAIL_APIKEY.'",
+								email: $("#admin_mail").val()
+							},
+							success: function(data) {
+								$("#active").fadeOut(function() {
+									$("#active_message").fadeIn();
+								});
+							}
+						});
+					});
+				</script>';
+}
 
 // APIKEY
 $Form .='<tr class="pair"><th align="left">'.$langs->trans("DOLIMAIL_APIKEY_n").'</th>';

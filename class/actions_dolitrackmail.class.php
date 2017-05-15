@@ -475,12 +475,12 @@ class ActionsDolitrackmail {
 						$trackid = GETPOST('trackid','aZ09');
 
 						// Feature to push mail sent into Sent folder
-						if (! empty($conf->dolimail->enabled)) {
+						/*if (! empty($conf->dolimail->enabled)) {
 							$mailfromid = explode("#", $_POST['frommail'],3);	// $_POST['frommail'] = 'aaa#Sent# <aaa@aaa.com>'	// TODO Use a better way to define Sent dir.
 							if (count($mailfromid)==0) $from = $_POST['fromname'] . ' <' . $_POST['frommail'] .'>';
 							else {
 								$mbid = $mailfromid[1];
-
+								
 								//IMAP Postbox
 								$mailboxconfig = new IMAP($db);
 								$mailboxconfig->fetch($mbid);
@@ -503,11 +503,12 @@ class ActionsDolitrackmail {
 										$mailboxconfig->foldername=$folder;
 										$from = $mailfromid[0] . $mailfromid[2];
 										$imap=1;
+										
 									}
 
 								}
 							}
-						}
+						}*/
 						//Preparation association fichier/mail
 						$regex = '#\((([^()]+|(?R))*)\)#';
 						if (preg_match_all($regex, $message_array[$to] ,$matches)) {
@@ -555,10 +556,8 @@ class ActionsDolitrackmail {
 							else	header('Location: '.$_SERVER["PHP_SELF"].'?'.($paramname?$paramname:'id').'='.$object->id);
 							exit;
 						}
-
 						// Send mail
 						require_once DOL_DOCUMENT_ROOT.'/core/class/CMailFile.class.php';
-
 						//Construction de la liste des destinataires
 						if(count($sendtos) > 1 && empty($_POST['disable_follow'])) {
 							$footmessage = $sendtos;
@@ -579,7 +578,7 @@ class ActionsDolitrackmail {
 							if ($result) {
 								$error=0;
 
-								// FIXME This must be moved into a trigger for action $trigger_name
+								/*// FIXME This must be moved into a trigger for action $trigger_name
 								if (! empty($conf->dolimail->enabled)) {
 									$mid = (GETPOST('mid','int') ? GETPOST('mid','int') : 0);	// Original mail id is set ?
 									if ($mid) {
@@ -594,26 +593,26 @@ class ActionsDolitrackmail {
 										if ($movemail) setEventMessages($langs->trans("MailMovedToImapFolder",$folder), null, 'mesgs');
 										else setEventMessages($langs->trans("MailMovedToImapFolder_Warning",$folder), null, 'warnings');
 									}
-								}
+								}*/
 
 								// Initialisation of datas
 								if (is_object($object))	{
-											$object->socid			= $sendtosocid;	// To link to a company
-											$object->sendtoid		= $sendtoid;	// To link to a contact/address
-											$object->actiontypecode	= $actiontypecode;
-											$object->actionmsg		= $actionmsg;  // Long text
-											$object->actionmsg2		= $actionmsg2; // Short text
-											$object->trackid        = $trackid;
-											$object->fk_element		= $object->id;
-											$object->elementtype	= $object->element;
-											// Call of triggers
+									$object->socid			= $sendtosocid;	// To link to a company
+									$object->sendtoid		= $sendtoid;	// To link to a contact/address
+									$object->actiontypecode	= $actiontypecode;
+									$object->actionmsg		= $actionmsg;  // Long text
+									$object->actionmsg2		= $actionmsg2; // Short text
+									$object->trackid        = $trackid;
+									$object->fk_element		= $object->id;
+									$object->elementtype	= $object->element;
+									// Call of triggers
 									include_once DOL_DOCUMENT_ROOT . '/core/class/interfaces.class.php';
 									$interface=new Interfaces($db);
 									$result=$interface->run_triggers($trigger_name,$object,$user,$langs,$conf);
 									if ($result < 0) {
 										$error++; $errors=$interface->errors;
 									}
-											// End call of triggers
+									// End call of triggers
 								}
 
 								if ($error)	{
