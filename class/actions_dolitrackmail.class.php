@@ -570,6 +570,8 @@ class ActionsDolitrackmail {
 							}
 							$message .= "<p><i>".$langs->trans("mailsendto").implode(", ",array_filter($footmessage))."</i></p>";
 						}
+						global $mailfile;
+						
 						$mailfile = new CMailFile($subject,$to,$from,$message,$filepath,$mimetype,$filename,$sendtocc,$sendtobcc,$deliveryreceipt,-1,'','',$trackid);
 						if ($mailfile->error) {
 							$mesgs[]='<div class="error">'.$mailfile->error.'</div>';

@@ -1,3 +1,6 @@
+Version 1.2.3 :
+- Compatibility with MultiSMTP module
+
 Version 1.2.2 :
 - Add permissions to access historical pages
 - Addition of the possibility of return of an email for the activation of the account
