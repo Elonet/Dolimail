@@ -207,7 +207,7 @@ llxHeader("",$langs->trans("dolitrackmailSetup"),'','','','','','',0,0);
 if($current_version < $last_version) {
 	print '<div class="info hideonsmartphone">
 				<img src="'.DOL_URL_ROOT.'/theme/eldy/img/info_black.png" border="0" alt="" title="'.$langs->trans("dolitrackmailNewTitle").'" class="hideonsmartphone">
-				'.$langs->trans("dolitrackmailNew").' <a href="https://dolimail.fr/module/" target="_blank">Dolimail.fr</a>
+				'.$langs->trans("dolitrackmailNew").' <a href="https://www.dolistore.com/fr/modules/783-Dolimail.html" target="_blank">Dolistore</a>
 		   </div>';
 }
 $linkback='<a href="'.DOL_URL_ROOT.'/admin/modules.php">'.$langs->trans("BackToModuleList").'</a>';

@@ -68,9 +68,9 @@
 			if ($info['http_code'] == 201 && $result['success'])
 			{
 				foreach($result['data'] as $key=>$value) {
-					$url = 'https://dolimail.fr/server/getfile.php?uuid='.$value;
+					$url = 'https://dolimail.fr/server/getfile.php?uuid='.$value['uuid']."&c=".$value['key'];
 					$filelink = '<li><a href="'.$url.'">'.$cFile->postname.'</a></li>';
-					$fileassociation[$key] = $fileassociation[$key].$filelink."(".$value.")";
+					$fileassociation[$key] = $fileassociation[$key].$filelink."(".$value['uuid'].")";
 				}
 			}
 			else

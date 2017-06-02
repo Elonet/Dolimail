@@ -1,3 +1,6 @@
+Version 1.2.4 :
+- Add encryption without saving keys
+
 Version 1.2.3 :
 - Compatibility with MultiSMTP module
 
