@@ -1,3 +1,9 @@
+Version 1.2.5 :
+- Adding email messages to tracking history
+- Correcting email notifications for free accounts
+- Correction of the default subject and message when loading the interface
+- Simplifying alerts
+
 Version 1.2.4 :
 - Add encryption without saving keys
 

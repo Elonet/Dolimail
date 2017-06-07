@@ -5,7 +5,7 @@
 	$langs->load('dolitrackmail@dolitrackmail');
 	
 	$element = GETPOST('el');
-	
+
 	require_once DOL_DOCUMENT_ROOT . '/core/class/html.formfile.class.php';
 	require_once DOL_DOCUMENT_ROOT . '/core/class/html.formorder.class.php';
 	require_once DOL_DOCUMENT_ROOT . '/core/class/html.formmargin.class.php';
@@ -16,8 +16,8 @@
 	require_once(DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php");
 	
 	//Transmission des variables GET en POST pour conserver le message lors d'un upload
-	if(!$_REQUEST['modelselectedtrack']) {
-		$_POST['message'] = $_GET['message'];
+	if(!$_REQUEST['modelselectedtrack'] && GETPOST("mode") != 'init') {
+		$_POST['message'] = rawurldecode($_GET['message']);
 		$_POST['subject'] = $_GET['subject'];
 	}
 	
@@ -152,6 +152,7 @@
 
 		// Init list of files
 		if (GETPOST("mode") == 'init') {
+			$formmail->param['models_id']=-1;
 			$formmail->clear_attached_files();
 			$formmail->add_attached_files($file, basename($file), dol_mimetype($file));
 		}
@@ -309,6 +310,7 @@
 		}
 		// Init list of files
 		if (GETPOST("mode") == 'init') {
+			$formmail->param['models_id']=-1;
 			$formmail->clear_attached_files();
 			$formmail->add_attached_files($file, basename($file), dol_mimetype($file));
 		}
@@ -461,6 +463,7 @@
 
 		// Init list of files
 		if (GETPOST("mode") == 'init') {
+			$formmail->param['models_id']=-1;
 			$formmail->clear_attached_files();
 			$formmail->add_attached_files($file, basename($file), dol_mimetype($file));
 		}
@@ -1074,6 +1077,7 @@
 		$formmail->param['returnurl'] = DOL_URL_ROOT . '/supplier_proposal/card.php?id=' . $object->id;
 		// Init list of files
 		if (GETPOST("mode") == 'init') {
+			$formmail->param['models_id']=-1;
 			$formmail->clear_attached_files();
 			$formmail->add_attached_files($file, basename($file), dol_mimetype($file));
 		}
@@ -1172,6 +1176,7 @@
 		$formmail->param['returnurl'] = DOL_URL_ROOT . '/societe/soc.php?socid=' . $object->id;
 		// Init list of files
 		if (GETPOST("mode") == 'init') {
+			$formmail->param['models_id']=-1;
 			$formmail->clear_attached_files();
 			$formmail->add_attached_files($file, basename($file), dol_mimetype($file));
 		}
@@ -1343,7 +1348,7 @@
 	//Make class disable for prevent access
 ?>
 $(document).ready(function() {
-<?php if($user->user_mobile == "") { ?>
+<?php if($user->user_mobile == "" && GETPOST('mode') == 'init') { ?>
 	$.jnotify("<?php echo addslashes($langs->trans("nosms",DOL_URL_ROOT."/user/card.php?id=".$user->id."&action=edit")); ?>","error",true,{ remove: function (){} } );
 <?php } ?>
 <?php if($user->user_mobile != "" && $mobile_valid == false) { ?>

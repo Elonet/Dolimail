@@ -737,7 +737,8 @@ class ActionsDolitrackmail {
 			}
 		}
 		$element = $object->element;
-		$request = '&mode='.$_REQUEST['mode'].'&modelmailselectedtrack='.$_REQUEST['modelmailselectedtrack'].'&modelselectedtrack='.$_REQUEST['modelselectedtrack'].'&sendto='.$_REQUEST['sendto'].'&message='.$_REQUEST['message'].'&subject='.$_REQUEST['subject'];
+		error_log($_REQUEST['message']);
+		$request = '&mode='.$_REQUEST['mode'].'&modelmailselectedtrack='.$_REQUEST['modelmailselectedtrack'].'&modelselectedtrack='.$_REQUEST['modelselectedtrack'].'&sendto='.$_REQUEST['sendto'].'&message='.rawurlencode($_REQUEST['message']).'&subject='.$_REQUEST['subject'];
 		if ($element == 'propal') $element = 'propale';
 
 		if ($element == 'propale') {
