@@ -15,11 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**     \defgroup   subjectattribution     Module Subject Attribution
- *      \brief      Module to manage attribution of propals, orders, ...
- *      \file       htdocs/subjectattribution/core/modules/modSubjectAttribution.class.php
- *      \brief      Attribution du sujet à un utilisateur
- */
  
 include_once DOL_DOCUMENT_ROOT .'/core/modules/DolibarrModules.class.php';
 require_once(DOL_DOCUMENT_ROOT."/core/lib/admin.lib.php");
