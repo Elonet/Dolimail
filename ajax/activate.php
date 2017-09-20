@@ -21,7 +21,9 @@
 	$apikey = $_POST['apikey'];
 	$email = $_POST['email'];
 	
-	$url = 'https://dolimail.fr/server/reactivate.php';
+	global $conf;
+	
+	$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/reactivate.php';
 	$fields = array(
 		'email' => $email,
 		'apikey' => $apikey

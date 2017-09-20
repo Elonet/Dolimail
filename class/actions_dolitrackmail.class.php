@@ -458,7 +458,7 @@ class ActionsDolitrackmail {
 						$attachedfiles=$formmail->get_attached_files();
 
 						//Recherche des fichiers ayant été envoyé sur les serveurs de Dolimail et retrait de la liste
-						if($_POST['send_array'] != "" && CF_TRCK_DL != 1) {
+						if($_POST['send_array'] != "" && $conf->global->CF_TRCK_DL != 1) {
 							$send_array = explode("|",$_POST['send_array']);
 							
 							foreach($send_array as $send_file) {
@@ -530,9 +530,9 @@ class ActionsDolitrackmail {
 							$id_file = implode(';', $matches[1]);
 						}
 						// Get shortlink mail
-						$url = 'https://dolimail.fr/server/newshortlinkmail.php';
+						$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/newshortlinkmail.php';
 						$fields = array(
-							'apikey' => DOLIMAIL_APIKEY,
+							'apikey' => $conf->global->DOLIMAIL_APIKEY,
 							'id' => $object->id,
 							'type' => $object->element,
 							'target'=> $to,
@@ -560,7 +560,7 @@ class ActionsDolitrackmail {
 
 						$result = json_decode($result,true);
 						if ($info['http_code'] == 201 && $result['success']) {
-							$url = 'https://dolimail.fr/server/getshortlinkmail.php?uuid='.$result['data']['id'];
+							$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/getshortlinkmail.php?uuid='.$result['data']['id'];
 							$message .= '<img src="'.$url.'" style="display: none;" />';
 						} else {
 							$langs->load("errors");
@@ -652,9 +652,9 @@ class ActionsDolitrackmail {
 						}
 					}
 					if($disable_old == 1) {
-						$url = 'https://dolimail.fr/server/delete_old.php';
+						$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/delete_old.php';
 						$fields = array(
-							'apikey' => DOLIMAIL_APIKEY,
+							'apikey' => $conf->global->DOLIMAIL_APIKEY,
 							'id' => $object->id,
 							'type' => $object->element
 						);
@@ -752,7 +752,6 @@ class ActionsDolitrackmail {
 			}
 		}
 		$element = $object->element;
-		error_log($_REQUEST['message']);
 		$request = '&mode='.$_REQUEST['mode'].'&modelmailselectedtrack='.$_REQUEST['modelmailselectedtrack'].'&modelselectedtrack='.$_REQUEST['modelselectedtrack'].'&sendto='.$_REQUEST['sendto'].'&message='.rawurlencode($_REQUEST['message']).'&subject='.$_REQUEST['subject'];
 		if ($element == 'propal') $element = 'propale';
 
@@ -782,11 +781,11 @@ class ActionsDolitrackmail {
 						$.ajax({
 							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
-							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+							data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',6000 );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
@@ -794,11 +793,11 @@ class ActionsDolitrackmail {
 									$.ajax({
 										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 										type: "POST",
-										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
-												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
 												setTimeout(function () {
 												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 												}, 5000);
@@ -812,7 +811,7 @@ class ActionsDolitrackmail {
 				</script>
 				<?php
 			}
-			if(CF_DIS_CLASSIC == 1) {
+			if($conf->global->CF_DIS_CLASSIC == 1) {
 				?>
 				<script type="text/javascript">
 					$(document).ready(function() {
@@ -848,11 +847,11 @@ class ActionsDolitrackmail {
 						$.ajax({
 							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
-							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+							data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',6000 );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
@@ -864,7 +863,7 @@ class ActionsDolitrackmail {
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
-												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
 												setTimeout(function () {
 												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 												}, 5000);
@@ -878,7 +877,7 @@ class ActionsDolitrackmail {
 				</script>
 				<?php
 			}
-			if(CF_DIS_CLASSIC == 1) {
+			if($conf->global->CF_DIS_CLASSIC == 1) {
 				?>
 				<script type="text/javascript">
 					$(document).ready(function() {
@@ -914,11 +913,11 @@ class ActionsDolitrackmail {
 						$.ajax({
 							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
-							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+							data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',6000 );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
@@ -930,7 +929,7 @@ class ActionsDolitrackmail {
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
-												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
 												setTimeout(function () {
 												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 												}, 5000);
@@ -944,7 +943,7 @@ class ActionsDolitrackmail {
 				</script>
 				<?php
 			}
-			if(CF_DIS_CLASSIC == 1) {
+			if($conf->global->CF_DIS_CLASSIC == 1) {
 				?>
 				<script type="text/javascript">
 					$(document).ready(function() {
@@ -980,11 +979,11 @@ class ActionsDolitrackmail {
 						$.ajax({
 							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
-							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+							data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',6000 );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
@@ -996,7 +995,7 @@ class ActionsDolitrackmail {
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
-												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
 												setTimeout(function () {
 												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 												}, 5000);
@@ -1010,7 +1009,7 @@ class ActionsDolitrackmail {
 				</script>
 				<?php
 			}
-			if(CF_DIS_CLASSIC == 1) {
+			if($conf->global->CF_DIS_CLASSIC == 1) {
 				?>
 				<script type="text/javascript">
 					$(document).ready(function() {
@@ -1046,11 +1045,11 @@ class ActionsDolitrackmail {
 						$.ajax({
 							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
-							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+							data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',6000 );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
@@ -1062,7 +1061,7 @@ class ActionsDolitrackmail {
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
-												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
 												setTimeout(function () {
 												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 												}, 5000);
@@ -1076,7 +1075,7 @@ class ActionsDolitrackmail {
 				</script>
 				<?php
 			}
-			if(CF_DIS_CLASSIC == 1) {
+			if($conf->global->CF_DIS_CLASSIC == 1) {
 				?>
 				<script type="text/javascript">
 					$(document).ready(function() {
@@ -1112,11 +1111,11 @@ class ActionsDolitrackmail {
 						$.ajax({
 							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
-							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+							data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',6000 );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
@@ -1128,7 +1127,7 @@ class ActionsDolitrackmail {
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
-												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
 												setTimeout(function () {
 												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 												}, 5000);
@@ -1142,7 +1141,7 @@ class ActionsDolitrackmail {
 				</script>
 				<?php
 			}
-			if(CF_DIS_CLASSIC == 1) {
+			if($conf->global->CF_DIS_CLASSIC == 1) {
 				?>
 				<script type="text/javascript">
 					$(document).ready(function() {
@@ -1178,11 +1177,11 @@ class ActionsDolitrackmail {
 						$.ajax({
 							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
-							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+							data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',6000 );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
@@ -1194,7 +1193,7 @@ class ActionsDolitrackmail {
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
-												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
 												setTimeout(function () {
 												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 												}, 5000);
@@ -1208,7 +1207,7 @@ class ActionsDolitrackmail {
 				</script>
 				<?php
 			}
-			if(CF_DIS_CLASSIC == 1) {
+			if($conf->global->CF_DIS_CLASSIC == 1) {
 				?>
 				<script type="text/javascript">
 					$(document).ready(function() {
@@ -1244,11 +1243,11 @@ class ActionsDolitrackmail {
 						$.ajax({
 							url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/active.php'; ?>",
 							type: "POST",
-							data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+							data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 							dataType: "text",
 							success: function(html){
 								if(html == 0) {
-									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',true,{delay: 600} );
+									$.jnotify("<?php echo $langs->trans("notactive"); ?>",'error',6000 );
 									setTimeout(function () {
 									   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 									}, 5000);
@@ -1260,7 +1259,7 @@ class ActionsDolitrackmail {
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
-												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',true,{delay: 600} );
+												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
 												setTimeout(function () {
 												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
 												}, 5000);
@@ -1274,7 +1273,7 @@ class ActionsDolitrackmail {
 				</script>
 				<?php
 			}
-			if(CF_DIS_CLASSIC == 1) {
+			if($conf->global->CF_DIS_CLASSIC == 1) {
 				?>
 				<script type="text/javascript">
 					$(document).ready(function() {

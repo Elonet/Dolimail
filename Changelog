@@ -1,31 +1,37 @@
-Version 1.2.5 :
+Version 1.2.6 (05/05/17) :
+- Added version verification of module to propose updates if necessary
+- Multiverse evolution
+- Compatibility with Dolibarr 6.0.x
+- Adding the phone number to the configuration
+
+Version 1.2.5 (07/06/17) :
 - Adding email messages to tracking history
 - Correcting email notifications for free accounts
 - Correction of the default subject and message when loading the interface
 - Simplifying alerts
 
-Version 1.2.4 :
+Version 1.2.4 (02/06/17) :
 - Add encryption without saving keys
 
-Version 1.2.3 :
+Version 1.2.3 (16/05/17) :
 - Compatibility with MultiSMTP module
 
-Version 1.2.2 :
+Version 1.2.2 (15/05/17) :
 - Add permissions to access historical pages
 - Addition of the possibility of return of an email for the activation of the account
 - Add Terms of Use link
 - Compatibility with IMAP config
 
-Version 1.2.1 :
+Version 1.2.1 (12/05/17) :
 - Compatibility with model
 - Register event
 
-Version 1.2 :
+Version 1.2 (09/05/17) :
 - Compatibility with md theme
 
-Version 1.1 :
+Version 1.1 (05/05/17) :
 - Compatibility with Dolibarr 5.0.x
 
-Version 1.0 :
+Version 1.0 (28/04/17) :
 - Compatibility with Dolibarr 3.9.x
 - Compatibility with Dolibarr 4.0.x

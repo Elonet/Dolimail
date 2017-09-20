@@ -20,7 +20,9 @@
 	
 	$apikey = $_POST['apikey'];
 	
-	$url = 'https://dolimail.fr/server/credits.php';
+	global $conf;
+	
+	$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/credits.php';
 	$fields = array(
 		'apikey' => urlencode($apikey)
 	);

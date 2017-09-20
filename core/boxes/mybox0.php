@@ -88,7 +88,7 @@ class MyBox0 extends ModeleBoxes
 	 */
 	public function loadBox($max = 5)
 	{
-		global $langs;
+		global $langs,$conf;
 		// Use configuration value for max lines count
 		$this->max = $max;
 		//include_once DOL_DOCUMENT_ROOT . "/mymodule/class/mymodule.class.php";
@@ -114,7 +114,7 @@ class MyBox0 extends ModeleBoxes
 		);
 		$url = 'https://dolimail.fr/server/logs.php';
 		$fields = array(
-			'apikey' => DOLIMAIL_APIKEY,
+			'apikey' => $conf->global->DOLIMAIL_APIKEY,
 			'id' => 1,
 			'type' => 'commande'
 		);

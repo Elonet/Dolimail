@@ -49,7 +49,7 @@ class modDolitrackmail extends DolibarrModules {
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
 		$this->description = $langs->trans("InfoDescriptionDolitrackmail");
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
-		$this->version = '1.2.5';
+		$this->version = '1.2.6';
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_DOLITRACKMAIL';
 		// Where to store the module in setup page (0=common,1=interface,2=other)
@@ -83,7 +83,9 @@ class modDolitrackmail extends DolibarrModules {
 		$this->const[7] = array("CF_TRCK_DL_O","chaine","","10"); 
 		$this->const[8] = array("CF_TRCK_DL_N","chaine","","2"); 
 		$this->const[9] = array("DOLIMAIL_APIKEY","chaine","",""); 
-		$this->const[10] = array("ADMIN_MAIL","chaine","",""); 
+		$this->const[10] = array("ADMIN_MAIL","chaine","","");
+		$this->const[11] = array("API_VERSION","chaine","","1.2.6"); 
+		$this->const[12] = array("ADMIN_PHONE","chaine","",""); 
 		
 		// hooks
 		$this->module_parts = array(
@@ -181,66 +183,109 @@ class modDolitrackmail extends DolibarrModules {
 		global $conf, $langs, $user;
 		$this->load_tables();
 		$langs->load('dolitrackmail@dolitrackmail');
+		$error = 0;
 		
-		//Lastname, Firstname, Email
-		$url = 'https://dolimail.fr/server/apikey.php';
-		$fields = array(
-			'lastname' => urlencode($user->lastname),
-			'firstname' => urlencode($user->firstname),
-			'email' => urlencode($user->email),
-			'lang' => $langs->defaultlang
-		);
+		/*
+		 * API VERSION
+		 */
+		$api_version = "1.2.6";
+		
+		if(!empty($user->user_mobile)) {
+			$phone = $user->user_mobile;
+		} else if(!empty($user->office_phone)) {
+			$phone = $user->office_phone;
+		} else {
+			setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorPhone")), 'errors');
+			$error++;
+		}
+		
+		if(empty($user->lastname)) {
+			setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorLastname")), 'errors');
+			$error++;
+		}
+		if(empty($user->firstname)) {
+			setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorFirstname")), 'errors');
+			$error++;
+		}
+		if(empty($user->email)) {
+			setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorEmail")), 'errors');
+			$error++;
+		}		
+		
+		
+		if(!$error) {
+			//Lastname, Firstname, Email
+			$url = 'https://dolimail.fr/server/api/'.$api_version.'/apikey.php';
+			$fields = array(
+				'lastname' => urlencode($user->lastname),
+				'firstname' => urlencode($user->firstname),
+				'email' => urlencode($user->email),
+				'phone' => urlencode($phone),
+				'lang' => $langs->defaultlang
+			);
 
-		foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-		rtrim($fields_string, '&');
+			foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+			rtrim($fields_string, '&');
 
-		$ch = curl_init();
-		curl_setopt($ch,CURLOPT_URL, $url);
-		curl_setopt($ch,CURLOPT_POST, count($fields));
-		curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch,CURLOPT_HEADER, false);
-		curl_setopt($ch,CURLOPT_FOLLOWLOCATION, false);
-		curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, 120);
-		curl_setopt($ch,CURLOPT_TIMEOUT, 120);
+			$ch = curl_init();
+			curl_setopt($ch,CURLOPT_URL, $url);
+			curl_setopt($ch,CURLOPT_POST, count($fields));
+			curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+			curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch,CURLOPT_HEADER, false);
+			curl_setopt($ch,CURLOPT_FOLLOWLOCATION, false);
+			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, 120);
+			curl_setopt($ch,CURLOPT_TIMEOUT, 120);
 
-		$result = curl_exec($ch);
-		$info = curl_getinfo($ch);
-		curl_close($ch);
+			$result = curl_exec($ch);
+			$info = curl_getinfo($ch);
+			curl_close($ch);
 
-		$result = json_decode($result,true);
-		if ($info['http_code'] == 201 && $result['success']) {
-			dolibarr_set_const($this->db, 'DOLIMAIL_APIKEY', $result['data']['apikey']);
-			dolibarr_set_const($this->db, 'CF_DIS_CLASSIC', $result['data']['cf_dis_classic']);
-			dolibarr_set_const($this->db, 'CF_AL_BY_SMS', $result['data']['cf_al_by_sms']);
-			dolibarr_set_const($this->db, 'CF_AL_BY_EMAIL', $result['data']['cf_al_by_email']);
-			dolibarr_set_const($this->db, 'CF_TRCK_DL', $result['data']['cf_trck_dl']);
-			dolibarr_set_const($this->db, 'CF_VIEW_EXPIRY', $result['data']['cf_view_expiry']);
-			dolibarr_set_const($this->db, 'CF_VIEW_EXPIRY_U', $result['data']['cf_view_expiry_u']);
-			dolibarr_set_const($this->db, 'CF_VIEW_AUTH', $result['data']['cf_view_auth']);
-			dolibarr_set_const($this->db, 'CF_TRCK_DL_O', $result['data']['cf_trck_dl_o']);
-			dolibarr_set_const($this->db, 'CF_TRCK_DL_N', $result['data']['cf_trck_dl_n']);
-			if($result['data']['admin_mail'] == "") {
-				dolibarr_set_const($this->db, 'ADMIN_MAIL', $user->email);
-			} else {
-				dolibarr_set_const($this->db, 'ADMIN_MAIL', $result['data']['admin_mail']);
+			$result = json_decode($result,true);
+			if ($info['http_code'] == 201 && $result['success']) {
+				dolibarr_set_const($this->db, 'DOLIMAIL_APIKEY', $result['data']['apikey']);
+				dolibarr_set_const($this->db, 'CF_DIS_CLASSIC', $result['data']['cf_dis_classic']);
+				dolibarr_set_const($this->db, 'CF_AL_BY_SMS', $result['data']['cf_al_by_sms']);
+				dolibarr_set_const($this->db, 'CF_AL_BY_EMAIL', $result['data']['cf_al_by_email']);
+				dolibarr_set_const($this->db, 'CF_TRCK_DL', $result['data']['cf_trck_dl']);
+				dolibarr_set_const($this->db, 'CF_VIEW_EXPIRY', $result['data']['cf_view_expiry']);
+				dolibarr_set_const($this->db, 'CF_VIEW_EXPIRY_U', $result['data']['cf_view_expiry_u']);
+				dolibarr_set_const($this->db, 'CF_VIEW_AUTH', $result['data']['cf_view_auth']);
+				dolibarr_set_const($this->db, 'CF_TRCK_DL_O', $result['data']['cf_trck_dl_o']);
+				dolibarr_set_const($this->db, 'CF_TRCK_DL_N', $result['data']['cf_trck_dl_n']);
+				dolibarr_set_const($this->db, 'API_VERSION', $api_version);
+				if($result['data']['admin_mail'] == "") {
+					dolibarr_set_const($this->db, 'ADMIN_MAIL', $user->email);
+				} else {
+					dolibarr_set_const($this->db, 'ADMIN_MAIL', $result['data']['admin_mail']);
+				}
+				if($result['data']['admin_phone'] == "") {
+					dolibarr_set_const($this->db, 'ADMIN_PHONE', $phone);
+				} else {
+					dolibarr_set_const($this->db, 'ADMIN_PHONE', $result['data']['admin_phone']);
+				}
+				if($result['data']['update'] == 0) {
+					setEventMessage($langs->trans("initializedSuccessful",$user->email));
+				} else if($result['data']['update'] == 1) {
+					setEventMessage($langs->trans("initializedSuccessfulUpdate"));
+				}
+			} else {			
+				if($result['data']['arg'] == "lastname") {
+					setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorLastname")), 'errors');
+				}
+				if($result['data']['arg'] == "firstname") {
+					setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorFirstname")), 'errors');
+				}
+				if($result['data']['arg'] == "email") {
+					setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorEmail")), 'errors');
+				}
+				if($result['data']['arg'] == "phone") {
+					setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorPhone")), 'errors');
+				}
+				return 0;
 			}
-			if($result['data']['update'] == 0) {
-				setEventMessage($langs->trans("initializedSuccessful",$user->email));
-			} else if($result['data']['update'] == 1) {
-				setEventMessage($langs->trans("initializedSuccessfulUpdate"));
-			}
-		} else {			
-			if($result['data']['arg'] == "lastname") {
-				setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorLastname")), 'errors');
-			}
-			if($result['data']['arg'] == "firstname") {
-				setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorFirstname")), 'errors');
-			}
-			if($result['data']['arg'] == "email") {
-				setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorEmail")), 'errors');
-			}
-			return 0;			
+		} else {
+			return 0;
 		}
 
         $sql = array();

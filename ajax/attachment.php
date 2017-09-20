@@ -24,6 +24,8 @@
 	$to = GETPOST('to','alpha');
 	$trackid = GETPOST('trackid','aZ09');
 	
+	global $conf;
+	
 	// Create form object
 	include_once DOL_DOCUMENT_ROOT.'/core/class/html.formmail.class.php';
 	$formmail = new FormMail($db);
@@ -46,7 +48,7 @@
 	$fileassociation = array();
 	foreach($filepath as $idx => $file) {
 		if($option_array[utf8_decode($filename[$idx])]["notrack"] == 0) { 
-			$url = 'https://dolimail.fr/server/upload.php';
+			$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/upload.php';
 			$fileName = realpath($file);
 			$fileSize = filesize($fileName);
 
@@ -57,7 +59,7 @@
 			
 			$headers = array("Content-Type:multipart/form-data");
 			$fields = array(
-				'apikey' => DOLIMAIL_APIKEY,
+				'apikey' => $conf->global->DOLIMAIL_APIKEY,
 				'id' => $id,
 				'type' => $element,
 				'filedata'=> $cFile,
@@ -83,7 +85,7 @@
 			if ($info['http_code'] == 201 && $result['success'])
 			{
 				foreach($result['data'] as $key=>$value) {
-					$url = 'https://dolimail.fr/server/getfile.php?uuid='.$value['uuid']."&c=".$value['key'];
+					$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/getfile.php?uuid='.$value['uuid']."&c=".$value['key'];
 					$filelink = '<li><a href="'.$url.'">'.$cFile->postname.'</a></li>';
 					$fileassociation[$key] = $fileassociation[$key].$filelink."(".$value['uuid'].")";
 				}

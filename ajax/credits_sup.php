@@ -22,7 +22,9 @@
 	$sms = intval($_POST['sms']);
 	$email = intval($_POST['email']);
 	
-	$url = 'https://dolimail.fr/server/credits_sup.php';
+	global $conf;
+	
+	$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/credits_sup.php';
 	$fields = array(
 		'apikey' => urlencode($apikey),
 		'sms' => urlencode($sms),

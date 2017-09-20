@@ -37,6 +37,8 @@ function duree($time) {
 $langs->load('bills');
 $langs->load('dolitrackmail@dolitrackmail');
 
+global $conf;
+
 $id = GETPOST("id",'int');
 
 // Security check
@@ -61,9 +63,9 @@ $soc->fetch($object->socid);
 $head = facturefourn_prepare_head($object);
 dol_fiche_head($head, 'tracking', $langs->trans('SupplierInvoice'), 0, 'bill');
 
-$url = 'https://dolimail.fr/server/logs.php';
+$url = 'https://dolimail.fr/server/api/'.$conf->global->API_VERSION.'/logs.php';
 $fields = array(
-	'apikey' => DOLIMAIL_APIKEY,
+	'apikey' => $conf->global->DOLIMAIL_APIKEY,
 	'id' => $id,
 	'type' => 'invoice_supplier'
 );
@@ -145,7 +147,7 @@ if ($info['http_code'] == 200 && $result['success']) {
 			}
 			if(is_int($numeric) && $data['coordinate'] != ""){
 				$table_date .= "";
-				$table_date .= "<tr><td class='no_border'><a href='https://dolimail.fr/map.php?id=".$data['pk']."&api=".DOLIMAIL_APIKEY."' target='_blank' class='tooltip'>".$data['location']."</a></td></tr>";
+				$table_date .= "<tr><td class='no_border'><a href='https://dolimail.fr/map.php?id=".$data['pk']."&api=".$conf->global->DOLIMAIL_APIKEY."' target='_blank' class='tooltip'>".$data['location']."</a></td></tr>";
 				if($nb_pages > 0) {
 					for($i=0; $i < $nb_pages; $i++) {
 						$table_date .= "<tr><td class='no_border'>&nbsp;</td></tr>";

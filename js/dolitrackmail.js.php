@@ -22,6 +22,8 @@
 	
 	$element = GETPOST('el');
 
+	global $conf;
+	
 	require_once DOL_DOCUMENT_ROOT . '/core/class/html.formfile.class.php';
 	require_once DOL_DOCUMENT_ROOT . '/core/class/html.formorder.class.php';
 	require_once DOL_DOCUMENT_ROOT . '/core/class/html.formmargin.class.php';
@@ -186,8 +188,9 @@
 		//  Strip blank lines
 		$text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 		$text = str_replace("'", '"', $text);
-		$text = str_replace(array("\n"), "'+'", addslashes( $text));
-	}
+		list($before_textarea, $textarea) = explode("<textarea", $text, 2);
+		list($textarea, $after_textarea) = explode("</textarea>", $textarea, 2);
+		$text = str_replace(array("\n"), "", addslashes($before_textarea))."<textarea".str_replace(array("\n"), "|", addslashes($textarea))."</textarea>".str_replace(array("\n"), "", addslashes($after_textarea));	}
 	
 	if ($element == 'propale') {
 		$langs->load('propal');
@@ -321,7 +324,7 @@
 		$version = versiondolibarrarray();
 		if($version[0] == 3) {
 			$formmail->param['returnurl'] = DOL_URL_ROOT . '/comm/propal.php?id=' . $object->id;
-		} else if($version[0] == 4 || $version[0] == 5) {
+		} else if($version[0] == 4 || $version[0] == 5 || $version[0] == 6) {
 			$formmail->param['returnurl'] = DOL_URL_ROOT . '/comm/propal/card.php?id=' . $object->id;
 		}
 		// Init list of files
@@ -343,7 +346,9 @@
 		//  Strip blank lines
 		$text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 		$text = str_replace("'", '"', $text);
-		$text = str_replace(array("\n"), "'+'", addslashes( $text));
+		list($before_textarea, $textarea) = explode("<textarea", $text, 2);
+		list($textarea, $after_textarea) = explode("</textarea>", $textarea, 2);
+		$text = str_replace(array("\n"), "", addslashes($before_textarea))."<textarea".str_replace(array("\n"), "|", addslashes($textarea))."</textarea>".str_replace(array("\n"), "", addslashes($after_textarea));
 	}
 	
 	if ($element == 'facture') {
@@ -496,8 +501,9 @@
 		//  Strip blank lines
 		$text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 		$text = str_replace("'", '"', $text);
-		$text = str_replace(array("\n"), "'+'", addslashes( $text));
-	}
+		list($before_textarea, $textarea) = explode("<textarea", $text, 2);
+		list($textarea, $after_textarea) = explode("</textarea>", $textarea, 2);
+		$text = str_replace(array("\n"), "", addslashes($before_textarea))."<textarea".str_replace(array("\n"), "|", addslashes($textarea))."</textarea>".str_replace(array("\n"), "", addslashes($after_textarea));	}
 	
 	if ($element == 'order_supplier') {
 		$langs->load('supplier_proposal');
@@ -649,8 +655,9 @@
 		//  Strip blank lines
 		$text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 		$text = str_replace("'", '"', $text);
-		$text = str_replace(array("\n"), "'+'", addslashes( $text));
-	}
+		list($before_textarea, $textarea) = explode("<textarea", $text, 2);
+		list($textarea, $after_textarea) = explode("</textarea>", $textarea, 2);
+		$text = str_replace(array("\n"), "", addslashes($before_textarea))."<textarea".str_replace(array("\n"), "|", addslashes($textarea))."</textarea>".str_replace(array("\n"), "", addslashes($after_textarea));	}
 	
 	if ($element == 'invoice_supplier') {
 		$langs->load('bills');
@@ -796,8 +803,9 @@
 		//  Strip blank lines
 		$text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 		$text = str_replace("'", '"', $text);
-		$text = str_replace(array("\n"), "'+'", addslashes( $text));
-	}
+		list($before_textarea, $textarea) = explode("<textarea", $text, 2);
+		list($textarea, $after_textarea) = explode("</textarea>", $textarea, 2);
+		$text = str_replace(array("\n"), "", addslashes($before_textarea))."<textarea".str_replace(array("\n"), "|", addslashes($textarea))."</textarea>".str_replace(array("\n"), "", addslashes($after_textarea));	}
 	
 	if ($element == 'shipping') {
 		$langs->load('sendings');
@@ -958,8 +966,9 @@
 		//  Strip blank lines
 		$text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 		$text = str_replace("'", '"', $text);
-		$text = str_replace(array("\n"), "'+'", addslashes( $text));
-	}
+		list($before_textarea, $textarea) = explode("<textarea", $text, 2);
+		list($textarea, $after_textarea) = explode("</textarea>", $textarea, 2);
+		$text = str_replace(array("\n"), "", addslashes($before_textarea))."<textarea".str_replace(array("\n"), "|", addslashes($textarea))."</textarea>".str_replace(array("\n"), "", addslashes($after_textarea));	}
 	
 	if ($element == 'supplier_proposal') {
 		$langs->load('supplier_proposal');
@@ -1110,8 +1119,9 @@
 		//  Strip blank lines
 		$text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 		$text = str_replace("'", '"', $text);
-		$text = str_replace(array("\n"), "'+'", addslashes( $text));
-	}
+		list($before_textarea, $textarea) = explode("<textarea", $text, 2);
+		list($textarea, $after_textarea) = explode("</textarea>", $textarea, 2);
+		$text = str_replace(array("\n"), "", addslashes($before_textarea))."<textarea".str_replace(array("\n"), "|", addslashes($textarea))."</textarea>".str_replace(array("\n"), "", addslashes($after_textarea));	}
 	
 	if ($element == 'societe') {
 		$langs->load("companies");
@@ -1209,7 +1219,9 @@
 		//  Strip blank lines
 		$text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 		$text = str_replace("'", '"', $text);
-		$text = str_replace(array("\n"), "'+'", addslashes( $text));
+		list($before_textarea, $textarea) = explode("<textarea", $text, 2);
+		list($textarea, $after_textarea) = explode("</textarea>", $textarea, 2);
+		$text = str_replace(array("\n"), "", addslashes($before_textarea))."<textarea".str_replace(array("\n"), "|", addslashes($textarea))."</textarea>".str_replace(array("\n"), "", addslashes($after_textarea));
 	}
 	
 	$loading = addslashes("<div id='loading' style='display: none;position: fixed;top: 0%;left: 0%;width: 100%;height: 100%;background-color: black;z-index: 1001;-moz-opacity: 0.8;opacity: .80;filter: alpha(opacity=80);'></div><div id='loading_content' style='display: none;position: fixed;top: 40%;width: 100%;padding: 16px;border-radius:10px;z-index: 1002;overflow: auto;'><center><h1 style='color:white;'><b>".$langs->trans("loading")."</b></h1></center></div>");
@@ -1227,7 +1239,7 @@
 		$mobile_valid = false;
 	}
 	
-	if(CF_AL_BY_SMS == 1 && CF_AL_BY_EMAIL == 1 && $user->user_mobile != "" && $mobile_valid != false && $user->email != "") {
+	if($conf->global->CF_AL_BY_SMS == 1 && $conf->global->CF_AL_BY_EMAIL == 1 && $user->user_mobile != "" && $mobile_valid != false && $user->email != "") {
 		?>
 		$(document).on("click", ".al_e_o_e_i", function() {	
 			if($(this).hasClass("disable")) {
@@ -1264,7 +1276,7 @@
 			}
 		});
 		<?php
-	} else if(CF_AL_BY_SMS == 0 && CF_AL_BY_EMAIL == 1 && $user->email != "") {
+	} else if($conf->global->CF_AL_BY_SMS == 0 && $conf->global->CF_AL_BY_EMAIL == 1 && $user->email != "") {
 		?>
 		$(document).on("click", ".al_e_o_e_i", function() {	
 			if($(this).hasClass("disable")) {
@@ -1293,7 +1305,7 @@
 			}
 		});
 		<?php
-	} else if(CF_AL_BY_SMS == 1 && CF_AL_BY_EMAIL == 0 && $user->user_mobile != "" && $mobile_valid != false) {
+	} else if($conf->global->CF_AL_BY_SMS == 1 && $conf->global->CF_AL_BY_EMAIL == 0 && $user->user_mobile != "" && $mobile_valid != false) {
 		?>
 		$(document).on("click", ".al_e_o_e_i", function() {	
 			if($(this).hasClass("disable")) {
@@ -1406,16 +1418,16 @@ $(document).ready(function() {
 		$("#receiver").after('<input size="30" id="sendto" name="sendto" value="" style="display: none;">');
 	}
 	$("#cancel").attr("type","button");
-<?php if(CF_TRCK_DL == 0) { ?>
+<?php if($conf->global->CF_TRCK_DL == 0) { ?>
 	$("#addfiletrack").parent().children("div").each(function() {
 		if($(this).children("img[title='Mime type: pdf']").length) {
-		<?php if(CF_VIEW_AUTH == 1) { ?>
+		<?php if($conf->global->CF_VIEW_AUTH == 1) { ?>
 			$(this).find(".removedfile").before("<?php echo $icone_interface_attachment_pdf_auth; ?>");
 		<?php } else { ?>
 			$(this).find(".removedfile").before("<?php echo $icone_interface_attachment_pdf; ?>");
 		<?php } ?>
 		} else {
-		<?php if(CF_VIEW_AUTH == 1) { ?>
+		<?php if($conf->global->CF_VIEW_AUTH == 1) { ?>
 			$(this).find(".removedfile").before("<?php echo $icone_interface_attachment_other_auth; ?>");
 		<?php } else { ?>
 			$(this).find(".removedfile").before("<?php echo $icone_interface_attachment_other; ?>");
@@ -1434,7 +1446,7 @@ $(document).ready(function() {
 		$.ajax({
 			url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 			type: "POST",
-			data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+			data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 			dataType: "text",
 			success: function(html){
 				if(html == 1) {
@@ -1690,10 +1702,10 @@ $(document).ready(function() {
 	});	
 });
 //Retour des breaklines
-$(window).load(function() {
-	var toto = $("#message").val();
-	var result = toto.replace(/  /g, "\n");
-	$("#message").val(result);
+$(document).ready(function() {
+	var message = $("#message").val();
+	var result = message.replace(/\|/g, "\n");
+	$("#message").val(result);	
 	
 	//Tooltip
 	$(".title_to_attachment").tooltip({
