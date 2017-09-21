@@ -121,3 +121,4 @@ download_attachment=Downloading the attachment
 reading_attachment=Reading of the current %s attachment 
 read_attachment=Read attachment %s during
 page=page %s :
+dolimail_footer=This message and all its attachments may contain confidential and/or legally protected information and can also be tracked by the dolimail.fr website service. If you think that you received this message due to a mistake or if you do not want your openings tracked, please notify the sender.

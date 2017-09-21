@@ -585,6 +585,8 @@ class ActionsDolitrackmail {
 							}
 							$message .= "<p><i>".$langs->trans("mailsendto").implode(", ",array_filter($footmessage))."</i></p>";
 						}
+						
+						$message .= "<br/><p><small><i>".$langs->trans("dolimail_footer")."</i></small></p>";
 						global $mailfile;
 						
 						$mailfile = new CMailFile($subject,$to,$from,$message,$filepath,$mimetype,$filename,$sendtocc,$sendtobcc,$deliveryreceipt,-1,'','',$trackid);

@@ -1,5 +1,8 @@
-Version 1.2.6 (05/05/17) :
-- Added version verification of module to propose updates if necessary
+Version 1.2.7 (21/09/17) :
+- Adding legal information at the end of the e-mail
+
+Version 1.2.6 (20/09/17) :
+- Adding version verification of module to propose updates if necessary
 - Multiverse evolution
 - Compatibility with Dolibarr 6.0.x
 - Adding the phone number to the configuration

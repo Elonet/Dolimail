@@ -121,3 +121,4 @@ download_attachment=Téléchargement de la pièce jointe
 reading_attachment=Lecture de la pièce jointe %s en cours
 read_attachment=Lecture de la pièce jointe %s durant 
 page=page %s :
+dolimail_footer=Ce message et toutes ses pièces jointes peuvent contenir des informations confidentielles et/ou légalement protégées et peuvent également faire l'objet d'un suivi d'ouverture via le service dolimail.fr . Si vous avez reçu ce message par erreur ou que vous ne souhaitez pas que l'expéditeur puisse être averti de la lecture de ce message ou de ses pièces jointes, veuillez en aviser l'expéditeur.
