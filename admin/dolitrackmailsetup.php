@@ -82,7 +82,7 @@ switch($action)
     case save:
         //general option
 		$cf_dis_classic=GETPOST('cf_dis_classic','int');
-		if($premium == 2) {
+		if($premium == 1) {
 			$cf_al_by_sms=GETPOST('cf_al_by_sms','int');
 		} else {
 			$cf_al_by_sms=0;
