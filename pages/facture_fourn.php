@@ -137,9 +137,17 @@ if ($info['http_code'] == 200 && $result['success']) {
 								$text_page .= "<li>".$langs->trans('page',$page["page"]).duree($page['during'])."</li>";
 								$nb_pages++;
 							}
-							$table_event .= "<td class='no_border'>".dol_print_date($data['datec'],"dayhour","tzuser")." : ".$langs->trans('read_attachment',$data['filename'])." ".duree($data['tms']-$data['datec'])." :<ul style='margin-left:20%;margin-top: 5px;margin-bottom: 5px;'>".$text_page."</ul></td>";
+							if($data['during'] > 0) {
+								$table_event .= "<td class='no_border'>".dol_print_date($data['datec'],"dayhour","tzuser")." : ".$langs->trans('read_attachment',$data['filename'])." ".duree($data['during'])." :<ul style='margin-left:20%;margin-top: 5px;margin-bottom: 5px;'>".$text_page."</ul></td>";
+							} else {
+								$table_event .= "<td class='no_border'>".dol_print_date($data['datec'],"dayhour","tzuser")." : ".$langs->trans('read_attachment',$data['filename'])." ".duree($data['tms']-$data['datec'])." :<ul style='margin-left:20%;margin-top: 5px;margin-bottom: 5px;'>".$text_page."</ul></td>";
+							}
 						} else {
-							$table_event .= "<td class='no_border'>".dol_print_date($data['datec'],"dayhour","tzuser")." : ".$langs->trans('read_attachment',$data['filename'])." ".duree($data['tms']-$data['datec'])."</td>";
+							if($data['during'] > 0) {
+								$table_event .= "<td class='no_border'>".dol_print_date($data['datec'],"dayhour","tzuser")." : ".$langs->trans('read_attachment',$data['filename'])." ".duree($data['during'])."</td>";
+							} else {
+								$table_event .= "<td class='no_border'>".dol_print_date($data['datec'],"dayhour","tzuser")." : ".$langs->trans('read_attachment',$data['filename'])." ".duree($data['tms']-$data['datec'])."</td>";
+							}
 						}
 					}
 				}
