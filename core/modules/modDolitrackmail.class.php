@@ -49,7 +49,7 @@ class modDolitrackmail extends DolibarrModules {
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
 		$this->description = $langs->trans("InfoDescriptionDolitrackmail");
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
-		$this->version = '1.2.8';
+		$this->version = '1.2.9';
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_DOLITRACKMAIL';
 		// Where to store the module in setup page (0=common,1=interface,2=other)
@@ -188,14 +188,14 @@ class modDolitrackmail extends DolibarrModules {
 		/*
 		 * API VERSION
 		 */
-		$api_version = "1.2.8";
+		$api_version = "1.2.9";
 		
 		if(!empty($user->user_mobile)) {
 			$phone = $user->user_mobile;
 		} else if(!empty($user->office_phone)) {
 			$phone = $user->office_phone;
 		} else {
-			setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorPhone")), 'errors');
+			setEventMessage($langs->trans("initializedError",html_entity_decode($langs->trans("initializedErrorPhone"))), 'errors');
 			$error++;
 		}
 		
@@ -281,6 +281,9 @@ class modDolitrackmail extends DolibarrModules {
 				}
 				if($result['data']['arg'] == "phone") {
 					setEventMessage($langs->trans("initializedError",$langs->trans("initializedErrorPhone")), 'errors');
+				}
+				if($result['data']['arg'] == "already") {
+					setEventMessage($langs->trans("initializedError",html_entity_decode($langs->trans("initializedErrorAlready",$user->email))), 'errors');
 				}
 				return 0;
 			}

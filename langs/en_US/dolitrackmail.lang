@@ -72,6 +72,8 @@ initializedError=Cannot initialize module, %s
 initializedErrorLastname=please enter your name in your user profile
 initializedErrorFirstname=please enter your first name in your user profile
 initializedErrorEmail=please enter your email in your user profile
+initializedErrorPhone=please enter your phone number in your user profile
+initializedErrorAlready=A user with this email already exists :  %s
 uploadError=Cannot upload 
 attachfile=Attachement file :
 mailsendto=This e-mail is also sent to :
@@ -106,7 +108,7 @@ minor_buy=Minimum d\'achat
 minor_buy_title=Montant inférieur au minimum
 paypal_title=Payer via Paypal
 wait_title=En attente de validation email
-initializedSuccessful=Module initialized, an activation email was sent to you on %s
+initializedSuccessful=Module initialized
 initializedSuccessfulUpdate=Module initialized
 # Legende
 think_day=Idea of ​​the day
