@@ -1,3 +1,8 @@
+Version 1.3.0 (31/07/18) :
+- Compatibility with Dolibarr 7.0.x
+- Bug fixes with bills and third parties
+- Purification of the admin interface
+
 Version 1.2.9 (10/10/17) :
 - Withdrawal of the activation obligation by email
 

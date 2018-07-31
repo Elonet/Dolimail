@@ -861,7 +861,7 @@ class ActionsDolitrackmail {
 									$.ajax({
 										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 										type: "POST",
-										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
@@ -927,7 +927,7 @@ class ActionsDolitrackmail {
 									$.ajax({
 										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 										type: "POST",
-										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
@@ -993,7 +993,7 @@ class ActionsDolitrackmail {
 									$.ajax({
 										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 										type: "POST",
-										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
@@ -1059,7 +1059,7 @@ class ActionsDolitrackmail {
 									$.ajax({
 										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 										type: "POST",
-										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
@@ -1125,7 +1125,7 @@ class ActionsDolitrackmail {
 									$.ajax({
 										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 										type: "POST",
-										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
@@ -1191,7 +1191,7 @@ class ActionsDolitrackmail {
 									$.ajax({
 										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 										type: "POST",
-										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
@@ -1257,14 +1257,14 @@ class ActionsDolitrackmail {
 									$.ajax({
 										url: "<?php echo DOL_URL_ROOT.'/dolitrackmail/ajax/credits.php'; ?>",
 										type: "POST",
-										data: "apikey=<?php echo DOLIMAIL_APIKEY; ?>",
+										data: "apikey=<?php echo $conf->global->DOLIMAIL_APIKEY; ?>",
 										dataType: "text",
 										success: function(html){
 											if(html == 0) {
 												$.jnotify("<?php echo $langs->trans("notenoughcredit"); ?>",'error',6000 );
-												setTimeout(function () {
-												   window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
-												}, 5000);
+												// setTimeout(function () {
+												   // window.location.href = "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $object->id . '&action=presend&mode=init'; ?>";
+												// }, 5000);
 											}
 										}
 									});

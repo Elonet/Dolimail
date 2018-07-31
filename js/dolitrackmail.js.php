@@ -322,9 +322,9 @@
 		$formmail->param['id'] = $object->id;
 		//COrrection version
 		$version = versiondolibarrarray();
-		if($version[0] == 3) {
+		if($version[0] < 4) {
 			$formmail->param['returnurl'] = DOL_URL_ROOT . '/comm/propal.php?id=' . $object->id;
-		} else if($version[0] == 4 || $version[0] == 5 || $version[0] == 6) {
+		} else {
 			$formmail->param['returnurl'] = DOL_URL_ROOT . '/comm/propal/card.php?id=' . $object->id;
 		}
 		// Init list of files
@@ -480,7 +480,13 @@
 		$formmail->param['models'] = 'facture_send';
 		$formmail->param['models_id']=GETPOST('modelmailselectedtrack','int');
 		$formmail->param['facid'] = $object->id;
-		$formmail->param['returnurl'] = DOL_URL_ROOT . '/compta/facture.php?id=' . $object->id;
+		//COrrection version
+		$version = versiondolibarrarray();
+		if($version[0] < 6) {
+			$formmail->param['returnurl'] = DOL_URL_ROOT . '/compta/facture.php?id=' . $object->id;
+		} else {
+			$formmail->param['returnurl'] = DOL_URL_ROOT . '/compta/facture/card.php?id=' . $object->id;
+		}
 
 		// Init list of files
 		if (GETPOST("mode") == 'init') {
@@ -1199,7 +1205,13 @@
 		$formmail->param['models'] = 'thirdparty';
 		$formmail->param['models_id']=GETPOST('modelmailselectedtrack','int');
 		$formmail->param['id'] = $object->id;
-		$formmail->param['returnurl'] = DOL_URL_ROOT . '/societe/soc.php?socid=' . $object->id;
+		//COrrection version
+		$version = versiondolibarrarray();
+		if($version[0] < 6) {
+			$formmail->param['returnurl'] = DOL_URL_ROOT . '/societe/soc.php?socid=' . $object->id;
+		} else {
+			$formmail->param['returnurl'] = DOL_URL_ROOT . '/societe/card.php?socid=' . $object->id;
+		}
 		// Init list of files
 		if (GETPOST("mode") == 'init') {
 			$formmail->param['models_id']=-1;
@@ -1229,54 +1241,15 @@
 	$path_img = DOL_URL_ROOT.'/dolitrackmail/img/object_img/';
 	$title_to_attachment = "<img src='".$path_img."icone_track_file_open.png' class='transparency' align='left' style='margin-right:4px;'/>".$langs->trans("al_o_a")."<br/><br/>";
 	$title_to_attachment .="<img src='".$path_img."icone_track_file_open_email.png' align='left' style='margin-right:4px;'/>".$langs->trans("al_e_o_a")."<br/><br/>";
-	$title_to_attachment .="<img src='".$path_img."icone_track_file_open_sms.png' align='left' style='margin-right:4px;'/>".$langs->trans("al_s_o_a");
 	$title_to_mail = "<img src='".$path_img."icone_alerte_ouverture.png' class='transparency' align='left' style='margin-right:4px;'/>".$langs->trans("al_o_e")."<br/><br/>";
 	$title_to_mail .="<img src='".$path_img."icone_alerte_email_ouverture.png' align='left' style='margin-right:4px;'/>".$langs->trans("al_e_o_e")."<br/><br/>";
-	$title_to_mail .="<img src='".$path_img."icone_alerte_sms_ouverture.png' align='left' style='margin-right:4px;'/>".$langs->trans("al_s_o_e");
 	$icone_interface = addslashes("<div class='option'><img src='".$path_img."icone_track_file_open.png' class='al_e_o_a_i transparency title_to_attachment' title=''/><img src='".$path_img."icone_alerte_ouverture.png' class='al_e_o_e_i transparency title_to_mail' title=''/><input type='checkbox' class='al_s_o_a' name='al_s_o_a' style='display:none;'/><input type='checkbox' class='al_e_o_a' name='al_e_o_a' style='display:none;'/><input type='checkbox' class='al_e_o_e' name='al_e_o_e' style='display:none;'/><input type='checkbox' class='al_s_o_e' name='al_s_o_e' style='display:none;'/></div>");
 	$mobile_valid = true;
 	if(!preg_match("/^[0]{1}[6-7]{1}[0-9]{8}$/", $user->user_mobile) && !preg_match("/^\+[1-9]{1}[0-9]{3,14}$/", $user->user_mobile)) {
 		$mobile_valid = false;
 	}
 	
-	if($conf->global->CF_AL_BY_SMS == 1 && $conf->global->CF_AL_BY_EMAIL == 1 && $user->user_mobile != "" && $mobile_valid != false && $user->email != "") {
-		?>
-		$(document).on("click", ".al_e_o_e_i", function() {	
-			if($(this).hasClass("disable")) {
-				$.jnotify("<?php echo addslashes($langs->trans("nobusiness")); ?>","error",true,{ remove: function (){} } );
-			} else {
-				if(!$(this).parent().children(".al_e_o_e").is(":checked") && !$(this).parent().children(".al_s_o_e").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_alerte_email_ouverture.png" ;?>").removeClass("transparency");
-					$(this).parent().children(".al_e_o_e").prop("checked", true);
-				} else if($(this).parent().children(".al_e_o_e").is(":checked") && !$(this).parent().children(".al_s_o_e").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_alerte_sms_ouverture.png" ;?>");
-					$(this).parent().children(".al_e_o_e").prop("checked", false);
-					$(this).parent().children(".al_s_o_e").prop("checked", true);
-				} else if(!$(this).parent().children(".al_e_o_e").is(":checked") && $(this).parent().children(".al_s_o_e").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_alerte_ouverture.png" ;?>").addClass("transparency");
-					$(this).parent().children(".al_s_o_e").prop("checked", false);
-				}
-			}
-		});
-		$(document).on("click", ".al_e_o_a_i", function() {	
-			if($(this).hasClass("disable")) {
-				$.jnotify("<?php echo addslashes($langs->trans("nobusiness")); ?>","error",true,{ remove: function (){} } );
-			} else {
-				if(!$(this).parent().children(".al_e_o_a").is(":checked") && !$(this).parent().children(".al_s_o_a").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_track_file_open_email.png" ;?>").removeClass("transparency");
-					$(this).parent().children(".al_e_o_a").prop("checked", true);
-				} else if($(this).parent().children(".al_e_o_a").is(":checked") && !$(this).parent().children(".al_s_o_a").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_track_file_open_sms.png" ;?>");
-					$(this).parent().children(".al_e_o_a").prop("checked", false);
-					$(this).parent().children(".al_s_o_a").prop("checked", true);
-				} else if(!$(this).parent().children(".al_e_o_a").is(":checked") && $(this).parent().children(".al_s_o_a").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_track_file_open.png" ;?>").addClass("transparency");
-					$(this).parent().children(".al_s_o_a").prop("checked", false);
-				}
-			}
-		});
-		<?php
-	} else if($conf->global->CF_AL_BY_SMS == 0 && $conf->global->CF_AL_BY_EMAIL == 1 && $user->email != "") {
+	if($conf->global->CF_AL_BY_EMAIL == 1 && $user->email != "") {
 		?>
 		$(document).on("click", ".al_e_o_e_i", function() {	
 			if($(this).hasClass("disable")) {
@@ -1305,37 +1278,8 @@
 			}
 		});
 		<?php
-	} else if($conf->global->CF_AL_BY_SMS == 1 && $conf->global->CF_AL_BY_EMAIL == 0 && $user->user_mobile != "" && $mobile_valid != false) {
-		?>
-		$(document).on("click", ".al_e_o_e_i", function() {	
-			if($(this).hasClass("disable")) {
-				$.jnotify("<?php echo addslashes($langs->trans("nobusiness")); ?>","error",true,{ remove: function (){} } );
-			} else {
-				if(!$(this).parent().children(".al_s_o_e").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_alerte_sms_ouverture.png" ;?>").removeClass("transparency");
-					$(this).parent().children(".al_s_o_e").prop("checked", true);
-				} else if($(this).parent().children(".al_s_o_e").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_alerte_ouverture.png" ;?>").addClass("transparency");
-					$(this).parent().children(".al_s_o_e").prop("checked", false);
-				}
-			}
-		});
-		$(document).on("click", ".al_e_o_a_i", function() {	
-			if($(this).hasClass("disable")) {
-				$.jnotify("<?php echo addslashes($langs->trans("nobusiness")); ?>","error",true,{ remove: function (){} } );
-			} else {
-				if(!$(this).parent().children(".al_s_o_a").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_track_file_open_sms.png" ;?>").removeClass("transparency");
-					$(this).parent().children(".al_s_o_a").prop("checked", true);
-				} else if($(this).parent().children(".al_s_o_a").is(":checked")) {
-					$(this).attr("src","<?php echo $path_img."icone_track_file_open.png" ;?>").addClass("transparency");
-					$(this).parent().children(".al_s_o_a").prop("checked", false);
-				}
-			}
-		});
-		<?php
 	}
-
+	
 	$icone_interface_attachment_pdf = addslashes("<input type='checkbox' class='no_dl' name='no_dl' style='display:none;'/><img src='".$path_img."icone_dlok.png' class='no_dl_i transparency title_attachment_dl' height='24' title=''/><input type='checkbox' class='auth' name='auth' style='display:none;'/><img src='".$path_img."icone_lockoff.png' class='auth_i transparency title_attachment_auth' height='24' title=''/><input type='checkbox' class='no_t' name='no_t' style='display:none;'/><img src='".$path_img."icone_trackoff.png' class='no_t_i transparency title_attachment_notk' height='24' title=''/>");
 	$icone_interface_attachment_disable = addslashes("<input type='checkbox' class='no_dl' name='no_dl' style='display:none;'/><input type='checkbox' class='auth' name='auth' style='display:none;'/><input type='checkbox' class='no_t' name='no_t' style='display:none;' checked/>");
 	$icone_interface_attachment_other = addslashes("<input type='checkbox' class='no_dl' name='no_dl' style='display:none;'/><input type='checkbox' class='auth' name='auth' style='display:none;'/><img src='".$path_img."icone_lockoff.png' class='auth_i transparency title_attachment_auth' height='24' title=''/><input type='checkbox' class='no_t' name='no_t' style='display:none;'/><img src='".$path_img."icone_trackoff.png' class='no_t_i transparency title_attachment_notk' height='24' title=''/>");
@@ -1348,40 +1292,8 @@
 	$title_attachment_notk = "<img src='".$path_img."icone_trackoff.png' class='transparency' height='24' align='left' style='margin-right:4px;'/>".$langs->trans("no_t_i")."<br/><br/>";
 	$title_attachment_notk.= "<img src='".$path_img."icone_trackon.png' class='' height='24' align='left' style='margin-right:4px;'/>".$langs->trans("no_t_i_2");
 	
-	//Prepare idea
-	// $url = 'https://dolimail.fr/server/idea.php';
-	// $fields = array(
-		// 'lang' => $langs->defaultlang
-	// );
-
-	// foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-	// rtrim($fields_string, '&');
-
-	// $ch = curl_init();
-	// curl_setopt($ch,CURLOPT_URL, $url);
-	// curl_setopt($ch,CURLOPT_POST, count($fields));
-	// curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-	// curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-	// curl_setopt($ch,CURLOPT_HEADER, false);
-	// curl_setopt($ch,CURLOPT_FOLLOWLOCATION, false);
-	// curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, 120);
-	// curl_setopt($ch,CURLOPT_TIMEOUT, 120);
-
-	// $result = curl_exec($ch);
-	// $info = curl_getinfo($ch);
-	// curl_close($ch);
-
-	// $result = json_decode($result,true);
-	// $legende = addslashes("<div style='margin-top:40px;'><center><h3><img src='".$path_img."ampoule.png' align='' height='24'/>".$langs->trans("think_day")."</h3>".$result['data']['idea']."</center></div>");
-	//Make class disable for prevent access
 ?>
 $(document).ready(function() {
-<?php if($user->user_mobile == "" && GETPOST('mode') == 'init') { ?>
-	$.jnotify("<?php echo addslashes($langs->trans("nosms",DOL_URL_ROOT."/user/card.php?id=".$user->id."&action=edit")); ?>","error",true,{ remove: function (){} } );
-<?php } ?>
-<?php if($user->user_mobile != "" && $mobile_valid == false) { ?>
-	$.jnotify("<?php echo addslashes($langs->trans("badphone",DOL_URL_ROOT."/user/card.php?id=".$user->id."&action=edit")); ?>","error",true,{ remove: function (){} } );
-<?php } ?>
 <?php if($user->email == "") { ?>
 	$.jnotify("<?php echo addslashes($langs->trans("nomail",DOL_URL_ROOT."/user/card.php?id=".$user->id."&action=edit")); ?>","error",true,{ remove: function (){} } );
 <?php } ?>

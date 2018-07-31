@@ -49,7 +49,7 @@ class modDolitrackmail extends DolibarrModules {
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
 		$this->description = $langs->trans("InfoDescriptionDolitrackmail");
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
-		$this->version = '1.2.9';
+		$this->version = '1.3.0';
 		// Key used in llx_const table to save module status enabled/disabled (where MYMODULE is value of property name of module in uppercase)
 		$this->const_name = 'MAIN_MODULE_DOLITRACKMAIL';
 		// Where to store the module in setup page (0=common,1=interface,2=other)
@@ -73,18 +73,15 @@ class modDolitrackmail extends DolibarrModules {
 
 		// Constants
 		$this->const = array();
-		$this->const[0] = array("CF_DIS_CLASSIC","int","",""); 
-		$this->const[1] = array("CF_AL_BY_SMS","int","",""); 
-		$this->const[2] = array("CF_AL_BY_EMAIL","int","","1"); 
-		$this->const[3] = array("CF_TRCK_DL","int","","1"); 
-		$this->const[4] = array("CF_VIEW_EXPIRY","int","",""); 
-		$this->const[5] = array("CF_VIEW_EXPIRY_U","int","",""); 
-		$this->const[6] = array("CF_VIEW_AUTH","int","",""); 
-		$this->const[7] = array("CF_TRCK_DL_O","chaine","","10"); 
-		$this->const[8] = array("CF_TRCK_DL_N","chaine","","2"); 
+		$this->const[0] = array("CF_DIS_CLASSIC","int","0","0"); 
+		$this->const[2] = array("CF_AL_BY_EMAIL","int","1","1"); 
+		$this->const[3] = array("CF_TRCK_DL","int","0","0"); 
+		$this->const[4] = array("CF_VIEW_EXPIRY","int","10","10"); 
+		$this->const[5] = array("CF_VIEW_EXPIRY_U","int","2","2"); 
+		$this->const[6] = array("CF_VIEW_AUTH","int","0","0"); 
 		$this->const[9] = array("DOLIMAIL_APIKEY","chaine","",""); 
 		$this->const[10] = array("ADMIN_MAIL","chaine","","");
-		$this->const[11] = array("API_VERSION","chaine","","1.2.6"); 
+		$this->const[11] = array("API_VERSION","chaine","","1.3.0"); 
 		$this->const[12] = array("ADMIN_PHONE","chaine","",""); 
 		
 		// hooks
@@ -99,10 +96,7 @@ class modDolitrackmail extends DolibarrModules {
 		// Boxes
 		$this->boxes = array();			// List of boxes
 		$r=0;
-		// $this->boxes[$r]['file']='mybox0.php@dolitrackmail';
-		// $this->boxes[$r]['note']='My box 0';
-		// $r++;
-		
+
 		// Permissions
 		$this->rights = array();		// Permission array used by this module
 		$r=0;
@@ -245,7 +239,6 @@ class modDolitrackmail extends DolibarrModules {
 			if ($info['http_code'] == 201 && $result['success']) {
 				dolibarr_set_const($this->db, 'DOLIMAIL_APIKEY', $result['data']['apikey']);
 				dolibarr_set_const($this->db, 'CF_DIS_CLASSIC', $result['data']['cf_dis_classic']);
-				dolibarr_set_const($this->db, 'CF_AL_BY_SMS', $result['data']['cf_al_by_sms']);
 				dolibarr_set_const($this->db, 'CF_AL_BY_EMAIL', $result['data']['cf_al_by_email']);
 				dolibarr_set_const($this->db, 'CF_TRCK_DL', $result['data']['cf_trck_dl']);
 				dolibarr_set_const($this->db, 'CF_VIEW_EXPIRY', $result['data']['cf_view_expiry']);
